@@ -1,15 +1,19 @@
 import React, { useState, useEffect  } from "react";
 import { deleteBooking, fetchAllBookings } from "../integrations/GuestBookings";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function GuestBookings() {
+    const location = useLocation()
+
     const now = new Date()
     const currentYear = Intl.DateTimeFormat('en', { year: "numeric"}).format(now)
     const currentMonth = Intl.DateTimeFormat('en', { month: "numeric"}).format(now)
-    const currentDate = `${currentYear}-${(currentMonth.length > 1) ? currentMonth : `0${currentMonth}`}`;
-
+    const currentDate = (location.state?.searchDate) ? location.state.searchDate : `${currentYear}-${(currentMonth.length > 1) ? currentMonth : `0${currentMonth}`}`;
+    
+    
     const [bookings, setBookings] = useState([])
     const [searchDate, setSearchDate] = useState(currentDate)
+    const [query, setQuery] = useState("")
 
     useEffect(() => {
         fetchAllBookings(setBookings, searchDate)
@@ -40,11 +44,14 @@ export function GuestBookings() {
                 <h1>Guest bookings</h1>
                 <label>Search Date</label>
                 <input type="month" onChange={handleOnChange} value={searchDate} />
+                <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} />
             </header>
             <section>
                 <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
                 <ul className="guestbookinglist">
-                    {bookings.map(booking => {
+                    {bookings
+                        .filter(booking => booking.guestName.toLowerCase().includes(query)) 
+                        .map(booking => {
                         const checkInDate = new Intl.DateTimeFormat('en', {
                             dateStyle: 'full',
                         }).format(new Date(booking.checkIn))
