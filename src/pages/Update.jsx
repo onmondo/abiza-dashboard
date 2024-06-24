@@ -20,9 +20,9 @@ export function Update() {
 
     const navigate = useNavigate()
     const location = useLocation()
+    const bookingId = location.pathname.split("/")[2]
 
     useEffect(() => {
-        const bookingId = location.pathname.split("/")[2]
         getBookingId(setBooking, bookingId)
     }, [])    
 
@@ -32,13 +32,13 @@ export function Update() {
 
     const handleUpdateBooking = async (e) => {
         e.preventDefault()
-        await updateBooking(booking, bookingId)
-        navigate("/")
+        await updateBooking(bookingId, booking)
+        navigate("/", { state: location.state})
     }
 
     const handleCancelBooking = async (e) => {
         e.preventDefault()
-        navigate("/",{ state: location.state})
+        navigate("/", { state: location.state})
     }
 
     return (
