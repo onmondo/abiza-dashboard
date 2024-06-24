@@ -43,17 +43,17 @@ export const deleteBooking = async (date, bookingId) => {
     }
 }
 
-export const updateBooking = async (date, bookingId) => {
+export const updateBooking = async (bookingId, booking) => {
     try {
         let year = Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date());
         let month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date());
-        if (date && date.length > 0) {
-            const dateDetails = date.split("-")
+        if (booking && booking.checkIn) {
+            const dateDetails = booking.checkIn.split("-")
             year = dateDetails[0]
             month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
         }
 
-        await axios.put(`http://localhost:3000/api/v1/bookings/${year}/${month}/${bookingId}`)
+        await axios.put(`http://localhost:3000/api/v1/bookings/${year}/${month}/${bookingId}`, booking)
     } catch (err) {
         console.log(err)
     }

@@ -35,7 +35,7 @@ export function GuestBookings() {
             <header>
                 <h1>Guest bookings</h1>
                 <label>Search Date</label>
-                <input type="date" onChange={handleOnChange} value={location.state?.searchDate} />
+                <input type="month" onChange={handleOnChange} value={searchDate} />
             </header>
             <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
             <ul className="guestbookinglist">
@@ -58,10 +58,10 @@ export function GuestBookings() {
                             <article className="guestbookingdetails">
                                 <h3>{booking.guestName}</h3>
                                 <p>Booked in {booking.rooms.join(" and ")} from {booking.from}, {booking.noOfPax} pax, {booking.noOfStay} night/s of stay for a nightly price of {amountFormatter.format(booking.nightlyPrice)}</p>
-                                <p>The guest checked-in {checkInDate} <input type="date" value={booking.checkIn.split("T")[0]} /> and checked-out {checkOutDate} <input type="date" value={booking.checkOut.split("T")[0]} />.</p>
+                                <p>The guest checked-in {checkInDate} <input type="date" readOnly value={booking.checkIn.split("T")[0]} /> and checked-out {checkOutDate} <input type="date" readOnly value={booking.checkOut.split("T")[0]} />.</p>
                                 {
                                 (booking.remarks.toLowerCase().includes('confirmed')) 
-                                    ? <p>The guest confirmed payment using {booking.modeOfPayment} as mode of payment on {datePaid} <input type="date" value={booking.datePaid.split("T")[0]} /> for a total of {amountFormatter.format(booking.totalPayout)}.</p>
+                                    ? <p>The guest confirmed payment using {booking.modeOfPayment} as mode of payment on {datePaid} <input type="date" readOnly value={booking.datePaid.split("T")[0]} /> for a total of {amountFormatter.format(booking.totalPayout)}.</p>
                                     : <p>The guest have not confirmed on payment yet</p>
                                 }
                                 <button className="delete" onClick={() => handleDelete(booking._id)}>Delete booking</button>

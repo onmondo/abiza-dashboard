@@ -28,12 +28,12 @@ export function Add() {
     const handleNewBooking = async (e) => {
         e.preventDefault()
         await addNewBooking(booking)
-        navigate("/")
+        navigate("/", { state: location.state})
     }
 
     const handleCancelBooking = async (e) => {
         e.preventDefault()
-        navigate("/",{ state: location.state})
+        navigate("/", { state: location.state})
     }
 
     return (
