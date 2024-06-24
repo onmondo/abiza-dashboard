@@ -10,7 +10,7 @@ export function GuestBookings() {
     const currentMonth = Intl.DateTimeFormat('en', { month: "numeric"}).format(now)
     const currentDate = (location.state?.searchDate) ? location.state.searchDate : `${currentYear}-${(currentMonth.length > 1) ? currentMonth : `0${currentMonth}`}`;
     
-    
+    const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
     const [bookings, setBookings] = useState([])
     const [searchDate, setSearchDate] = useState(currentDate)
     const [query, setQuery] = useState("")
@@ -50,7 +50,17 @@ export function GuestBookings() {
                 <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
                 <ul className="guestbookinglist">
                     {bookings
-                        .filter(booking => booking.guestName.toLowerCase().includes(query)) 
+                        // .filter(booking => booking.guestName.toLowerCase().includes(query)) 
+                        .filter(booking => 
+                            searchKeys.some(searchKey => {
+                                if (Array.isArray(booking[searchKey])) {
+                                    return booking[searchKey].join(",").toLowerCase().includes(query)
+                                } else {
+                                    return booking[searchKey].toLowerCase().includes(query)
+                                }
+                                
+                            })
+                        )
                         .map(booking => {
                         const checkInDate = new Intl.DateTimeFormat('en', {
                             dateStyle: 'full',
