@@ -49,18 +49,22 @@ export function GuestBookings() {
         <section className="guestbooking">
             <header>
                 <h1>Guest bookings</h1>
-                {totalBookings} total bookings this month of&nbsp;
-                <input type="month" onChange={handleOnChange} value={searchDate} /> <br />
+                <p>
+                    {totalBookings} total bookings this month of&nbsp;
+                    <input title="monthselector" type="month" onChange={handleOnChange} value={searchDate} />
+                </p>
+                <p>
                 with the total revenue of&nbsp;
-                <strong>
-                    {amountFormatter.format(bookings.reduce((total, booking) => {
-                        const bigTotal = Big(total)
-                        const bigPayout = Big(booking.totalPayout)
-                        total =  bigTotal.plus(bigPayout).toNumber()
-                        return total
-                    }
-                    , 0))}
-                </strong> <br />
+                    <strong title="totalrevenue">
+                        {amountFormatter.format(bookings.reduce((total, booking) => {
+                            const bigTotal = Big(total)
+                            const bigPayout = Big(booking.totalPayout)
+                            total =  bigTotal.plus(bigPayout).toNumber()
+                            return total
+                        }
+                        , 0))}
+                    </strong>
+                </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
                 <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
             </header>
