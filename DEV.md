@@ -62,3 +62,6 @@ module.exports = {
 ```
 
 5. You can now create your own test scripts.
+
+### For styling
+Don't forget to install sass-loader & node-sass
