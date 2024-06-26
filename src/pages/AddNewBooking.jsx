@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { addNewBooking } from "../integrations/GuestBookings";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export function Add() {
+export function AddNewBooking() {
     const [booking, setBooking] = useState({
         guestName: "",
         from: "",
