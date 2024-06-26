@@ -1,29 +1,21 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect, useMemo, useContext  } from "react";
 import { deleteBooking, fetchAllBookings } from "../integrations/GuestBookings";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Big from "big.js";
+import { DashboardContext } from "../context/DashboardContext";
+import { amountFormatter } from "../util/currency"
+import "./GuestBooking.scss"
 
-export function GuestBookings() {
-    const location = useLocation()
-
-    const now = new Date()
-    const currentYear = Intl.DateTimeFormat('en', { year: "numeric"}).format(now)
-    const currentMonth = Intl.DateTimeFormat('en', { month: "numeric"}).format(now)
-    const currentDate = (location.state?.searchDate) ? location.state.searchDate : `${currentYear}-${(currentMonth.length > 1) ? currentMonth : `0${currentMonth}`}`;
-    
+export function GuestBookings() {    
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
     const [bookings, setBookings] = useState([])
     const [totalBookings, setTotalBookings] = useState(0)
-    const [searchDate, setSearchDate] = useState(currentDate)
+    const { searchDate } = useContext(DashboardContext)
     const [query, setQuery] = useState("")
 
     useEffect(() => {
         fetchAllBookings(setBookings, setTotalBookings, searchDate)
     }, [searchDate])
-
-    const handleOnChange = (e) =>{
-        setSearchDate(e.target.value)
-    }
 
     const handleDelete = async (bookingId) => {
         await deleteBooking(searchDate, bookingId)
@@ -40,30 +32,26 @@ export function GuestBookings() {
         navigate(`/update/${bookingId}`, { state: { searchDate }})
     }
 
-    const amountFormatter = new Intl.NumberFormat("PH", {
-        style: "currency",
-        currency: "PHP",
-    });
+    const computeTotalRevenue = () => {
+        console.log("total revenue computed")
+        return amountFormatter.format(bookings.reduce((total, booking) => {
+            const bigTotal = Big(total)
+            const bigPayout = Big(booking.totalPayout)
+            total =  bigTotal.plus(bigPayout).toNumber()
+            
+            return total
+        }, 0))
+    }
+
+    const getTotalRevenue = useMemo(() => computeTotalRevenue(), [bookings])
 
     return (
         <section className="guestbooking">
             <header>
                 <h1>Guest bookings</h1>
                 <p>
-                    {totalBookings} total bookings this month of&nbsp;
-                    <input title="monthselector" type="month" onChange={handleOnChange} value={searchDate} />
-                </p>
-                <p>
-                with the total revenue of&nbsp;
-                    <strong title="totalrevenue">
-                        {amountFormatter.format(bookings.reduce((total, booking) => {
-                            const bigTotal = Big(total)
-                            const bigPayout = Big(booking.totalPayout)
-                            total =  bigTotal.plus(bigPayout).toNumber()
-                            return total
-                        }
-                        , 0))}
-                    </strong>
+                {totalBookings} total bookings this month with the total revenue of&nbsp;
+                    <strong title="totalrevenue">{getTotalRevenue}</strong>
                 </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
                 <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
@@ -72,7 +60,6 @@ export function GuestBookings() {
                 
                 <ul className="guestbookinglist">
                     {bookings
-                        // .filter(booking => booking.guestName.toLowerCase().includes(query)) 
                         .filter(booking => 
                             searchKeys.some(searchKey => {
                                 if (Array.isArray(booking[searchKey])) {
@@ -80,7 +67,6 @@ export function GuestBookings() {
                                 } else {
                                     return booking[searchKey].toLowerCase().includes(query)
                                 }
-                                
                             })
                         )
                         .map(booking => {
@@ -101,11 +87,11 @@ export function GuestBookings() {
                                     <p>The guest checked-in {checkInDate} <input type="date" readOnly value={booking.checkIn.split("T")[0]} /> and checked-out {checkOutDate} <input type="date" readOnly value={booking.checkOut.split("T")[0]} />.</p>
                                     {
                                     (booking.remarks.toLowerCase().includes('confirmed')) 
-                                        ? <p>The guest confirmed payment using {booking.modeOfPayment} as mode of payment on {datePaid} <input type="date" readOnly value={booking.datePaid.split("T")[0]} /> for a total of <strong>{amountFormatter.format(booking.totalPayout)}</strong>.</p>
-                                        : <p>The guest have not confirmed on payment yet</p>
+                                        ? <p className="confirmed">The guest confirmed payment using {booking.modeOfPayment} as mode of payment on {datePaid} <input type="date" readOnly value={booking.datePaid.split("T")[0]} /> for a total of <strong>{amountFormatter.format(booking.totalPayout)}</strong>.</p>
+                                        : <p className="pending">The guest have not confirmed on payment yet</p>
                                     }
-                                    <button className="delete" onClick={() => handleDelete(booking._id)}>Delete booking</button>
                                     <button className="updatebooking" onClick={() => handleUpdateBooking(booking._id)}>Update booking</button>
+                                    <button className="deletebooking" onClick={() => handleDelete(booking._id)}>Delete booking</button>
                                 </article>
                             </li>
                         )
