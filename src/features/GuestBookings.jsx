@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect, useMemo  } from "react";
 import { deleteBooking, fetchAllBookings } from "../integrations/GuestBookings";
 import { useLocation, useNavigate } from "react-router-dom";
 import Big from "big.js";
@@ -45,6 +45,20 @@ export function GuestBookings() {
         currency: "PHP",
     });
 
+    const computeTotalRevenue = () => {
+        console.log("total revenue computed")
+        return amountFormatter.format(bookings.reduce((total, booking) => {
+            const bigTotal = Big(total)
+            const bigPayout = Big(booking.totalPayout)
+            total =  bigTotal.plus(bigPayout).toNumber()
+            
+            return total
+        }, 0))
+    }
+
+    const getTotalRevenue = useMemo(() => computeTotalRevenue(), [bookings])
+
+    console.log("Guest booking re-renders")
     return (
         <section className="guestbooking">
             <header>
@@ -55,15 +69,7 @@ export function GuestBookings() {
                 </p>
                 <p>
                 with the total revenue of&nbsp;
-                    <strong title="totalrevenue">
-                        {amountFormatter.format(bookings.reduce((total, booking) => {
-                            const bigTotal = Big(total)
-                            const bigPayout = Big(booking.totalPayout)
-                            total =  bigTotal.plus(bigPayout).toNumber()
-                            return total
-                        }
-                        , 0))}
-                    </strong>
+                    <strong title="totalrevenue">{getTotalRevenue}</strong>
                 </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
                 <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
@@ -72,7 +78,6 @@ export function GuestBookings() {
                 
                 <ul className="guestbookinglist">
                     {bookings
-                        // .filter(booking => booking.guestName.toLowerCase().includes(query)) 
                         .filter(booking => 
                             searchKeys.some(searchKey => {
                                 if (Array.isArray(booking[searchKey])) {
@@ -80,7 +85,6 @@ export function GuestBookings() {
                                 } else {
                                     return booking[searchKey].toLowerCase().includes(query)
                                 }
-                                
                             })
                         )
                         .map(booking => {
