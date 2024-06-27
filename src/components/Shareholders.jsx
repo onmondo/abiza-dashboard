@@ -2,8 +2,9 @@ import React, { useEffect, useState, memo, useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { deleteShareholder, fetchAllShareholders } from "../integrations/Sharesholders"
 import { DashboardContext } from "../context/DashboardContext";
+import Big from "big.js";
 
-export const Shareholders = memo(function Shareholders() {
+export const Shareholders = memo(function Shareholders({ netIncome }) {
     const { searchDate } = useContext(DashboardContext)
     const [shareholders, setShareholders] = useState([])
 
@@ -25,6 +26,13 @@ export const Shareholders = memo(function Shareholders() {
         await deleteShareholder(shareholderId)
         await fetchAllShareholders(setShareholders)
     }
+    
+    const computeShares = (percentage) => {
+        const bigNetIncome = Big(netIncome)
+        const bigPercentage = Big(percentage)
+        const bigShare = bigNetIncome.times(bigPercentage)
+        return bigShare.round(2).toNumber()
+    }
 
     console.log("shareholders component re-renderd")
     return (
@@ -37,7 +45,7 @@ export const Shareholders = memo(function Shareholders() {
                     <li key={shareholder._id}>
                         <h3>{shareholder.name}</h3>
                         {(shareholder.isOwner) ? <sub>Owner</sub> : <sub>Host</sub> }
-                        <p>Shares percentage: {shareholder.percentage}</p>
+                        <p>{computeShares(shareholder.percentage)} share, which is {`${(shareholder.percentage * 100)}%`} percentage of the Net Income</p>
                         <button onClick={() => { handleUpdateShareholder(shareholder._id) }}>Update shareholder</button>
                         <button onClick={() => { handleDeleteShareholder(shareholder._id) }}>Delete shareholder</button>
                     </li>
