@@ -1,0 +1,20 @@
+@mixin commonlist {
+    display: flex;
+    gap: $flex_gap;
+    list-style: none;
+}
+
+.earningssection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $flex_gap;
+}
+
+.earningslist {
+    @include commonlist()
+}
+
+.shareholderlist {
+    @include commonlist()
+}
+
