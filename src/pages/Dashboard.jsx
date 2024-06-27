@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { GuestBookings } from "../features/GuestBookings";
-import "./Dashboard.scss";
+// import "./Dashboard.scss";
 import { CapitalExpenditures } from "../features/CapitalExpenditures";
 import { DashboardContext } from "../context/DashboardContext";
 import { getCurrentDate } from "../util/searchDate"
+import { EarningsSection } from "../features/EarningsSection";
 
 // import { UseRefDemo } from "../components/hookDemos/UseRefDemo";
 // import { UseLayoutEffectDemo } from "../components/hookDemos/UseLayoutEffectDemo"
@@ -32,6 +33,9 @@ export function Dashboard() {
                     <input title="monthselector" type="month" onChange={handleOnChange} value={searchDate} />
                 </p>
             </header>
+            <section className="overstats">
+                <EarningsSection />
+            </section>
             <section className="dashboard">
                 <GuestBookings />
                 <CapitalExpenditures />
