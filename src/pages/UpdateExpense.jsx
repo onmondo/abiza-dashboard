@@ -5,7 +5,6 @@ import { updateExpenditure, getExpenditureById } from "../integrations/CapitalEx
 export function UpdateExpense() {
     const location = useLocation()
     const expenditureId = location.pathname.split("/")[2]
-    console.log(location.pathname.split("/"))
     const navigate = useNavigate()
 
     const [expenditure, setExpenditure] = useState({})
