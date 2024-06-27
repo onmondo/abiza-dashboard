@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
-import Big from "big.js";
 import { useNavigate } from "react-router-dom";
 import { deleteExpenditure, fetchAllExpenditures } from "../integrations/CapitalExpenditures";
 import { DashboardContext } from "../context/DashboardContext"
-import { amountFormatter } from "../util/currency"
+import { amountFormatter, computeTotalExpenditure } from "../util/currency"
 
 export function CapitalExpenditures() {
     const searchKeys = ["particulars", "remarks", "date"]
@@ -18,18 +17,7 @@ export function CapitalExpenditures() {
 
     const navigate = useNavigate()
 
-    const computeTotalExpenditure = () => {
-        console.log("total expenditure computed")
-        return amountFormatter.format(expenditures.reduce((total, expenditure) => {
-            const bigTotal = Big(total)
-            const bigBill = Big(expenditure.totalBill)
-            total =  bigTotal.plus(bigBill).toNumber()
-            
-            return total
-        }, 0))
-    }
-
-    const getTotalExpenditure = useMemo(() => computeTotalExpenditure(), [expenditures])
+    const getTotalExpenditure = useMemo(() => computeTotalExpenditure(expenditures), [expenditures])
 
     const handleNewExpense = () => {
         navigate("/addExpense", { state: { searchDate }})
@@ -48,7 +36,7 @@ export function CapitalExpenditures() {
         <section className="expenditures">
             <header>
                 <h1>Expenditures</h1>
-                <p>{getTotalExpenditure} total expenditures</p>
+                <p>{amountFormatter.format(getTotalExpenditure)} total expenditures</p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
                 <button className="newexpense" onClick={handleNewExpense}>Add new expense</button>
             </header>
