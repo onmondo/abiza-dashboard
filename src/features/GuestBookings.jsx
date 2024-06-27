@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useMemo, useContext  } from "react";
+import React, { useState, useEffect, useMemo, useContext, forwardRef, useImperativeHandle } from "react";
 import { deleteBooking, fetchAllBookings } from "../integrations/GuestBookings";
 import { useNavigate } from "react-router-dom";
-import Big from "big.js";
 import { DashboardContext } from "../context/DashboardContext";
-import { amountFormatter } from "../util/currency"
-import "./GuestBooking.scss"
+import { amountFormatter, computeTotalRevenue } from "../util/currency"
+import "./GuestBookings.scss"
 
-export function GuestBookings() {    
+export function GuestBookings() {
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
     const [bookings, setBookings] = useState([])
     const [totalBookings, setTotalBookings] = useState(0)
@@ -32,18 +31,7 @@ export function GuestBookings() {
         navigate(`/update/${bookingId}`, { state: { searchDate }})
     }
 
-    const computeTotalRevenue = () => {
-        console.log("total revenue computed")
-        return amountFormatter.format(bookings.reduce((total, booking) => {
-            const bigTotal = Big(total)
-            const bigPayout = Big(booking.totalPayout)
-            total =  bigTotal.plus(bigPayout).toNumber()
-            
-            return total
-        }, 0))
-    }
-
-    const getTotalRevenue = useMemo(() => computeTotalRevenue(), [bookings])
+    const getTotalRevenue = useMemo(() => computeTotalRevenue(bookings), [bookings])
 
     return (
         <section className="guestbooking">
@@ -51,7 +39,7 @@ export function GuestBookings() {
                 <h1>Guest bookings</h1>
                 <p>
                 {totalBookings} total bookings this month with the total revenue of&nbsp;
-                    <strong title="totalrevenue">{getTotalRevenue}</strong>
+                    <strong title="totalrevenue">{amountFormatter.format(getTotalRevenue)}</strong>
                 </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
                 <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
