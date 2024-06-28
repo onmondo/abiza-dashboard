@@ -6,6 +6,7 @@ import { CapitalExpenditures } from "../features/CapitalExpenditures";
 import { DashboardContext } from "../context/DashboardContext";
 import { getCurrentDate } from "../util/searchDate"
 import { EarningsSection } from "../features/EarningsSection";
+import { NetIncomeChart } from "../features/NetIncomeChart";
 
 // import { UseRefDemo } from "../components/hookDemos/UseRefDemo";
 // import { UseLayoutEffectDemo } from "../components/hookDemos/UseLayoutEffectDemo"
