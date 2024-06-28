@@ -77,13 +77,13 @@ export function GuestBookings() {
                                     {/* <input type="date" readOnly value={booking.checkIn.split("T")[0]} /> */}
                                     {/* <input type="date" readOnly value={booking.checkOut.split("T")[0]} /> */}
                                     {
-                                    (booking.remarks.toLowerCase().includes('confirmed')) 
-                                        ?   <section className="confirmed">
+                                    (booking.remarks.toLowerCase().includes('pending')) 
+                                        ?   ""
+                                        :   <section className="confirmed">
                                                 <h3>{amountFormatter.format(booking.totalPayout)}</h3>
                                                 <sub>Paid {booking.modeOfPayment} on {datePaid}</sub><br />
                                                 <sub>Nightly price of {amountFormatter.format(booking.nightlyPrice)}</sub>
                                             </section> 
-                                        :   ""
                                     }
                                     {/* <input type="date" readOnly value={booking.datePaid.split("T")[0]} /> */}
                                 </article>
