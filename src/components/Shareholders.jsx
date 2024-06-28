@@ -41,7 +41,7 @@ export const Shareholders = memo(function Shareholders({ netIncome }) {
             <header>
                 <h1>Shareholders</h1>
             </header>
-            <ul className="dashboardboxlist">
+            <ul className="dashboardboxlist sharesection">
                 {shareholders.map(shareholder => 
                     <li key={shareholder._id} className={(shareholder.isOwner) ? "dbboxhighlight" : "" }>
                         <h3>{amountFormatter.format(computeShares(shareholder.percentage))}</h3>
