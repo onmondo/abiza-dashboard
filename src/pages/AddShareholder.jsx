@@ -24,12 +24,25 @@ export function AddShareholder({ placeholder }) {
     }
 
     return (
-        <section>
-            <input type="text" placeholder={placeholder} ref={nameRef} />
-            <input type="number" placeholder="0.0" ref={percentageRef} />
-            <input type="checkbox" name="owner" id="owner" ref={ownerRef} />
-            <button onClick={handleAddNewShareholder}>Add new shareholder</button>
-            <button onClick={handleCancel}>Cancel</button>
-        </section>
+        <div className="form">
+            <section>
+                <header>
+                    <h1>Add new shareholder</h1>
+                </header>
+                <label htmlFor="name">Name</label>
+                <input type="text" placeholder={placeholder} ref={nameRef} />
+                <label htmlFor="sharepercentage">Share percentage</label>
+                <input type="number" placeholder="0.0" ref={percentageRef} />
+                <div className="tickbox">
+                <input type="checkbox" name="owner" id="owner" ref={ownerRef} />                    
+                <label htmlFor="isowner">Owned?</label>
+                </div>
+                <p>
+                <button onClick={handleAddNewShareholder}>Add new shareholder</button>
+                <button className="cancel" onClick={handleCancel}>Cancel</button>                    
+                </p>
+            </section>
+        </div>
+
     )
 }

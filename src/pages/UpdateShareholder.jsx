@@ -41,13 +41,29 @@ export function UpdateShareholder({ placeholder }) {
     }
 
     return (
-        <section>
-            <input type="text" placeholder={placeholder} ref={nameRef} />
-            <input type="number" placeholder="0.0" ref={percentageRef} />
-            <input type="checkbox" name="owner" id="owner" ref={ownerRef} />
-            <input type="checkbox" name="active" id="active" ref={activeRef} />
-            <button onClick={handleUpdateShareholder}>Update shareholder</button>
-            <button onClick={handleCancel}>Cancel</button>
-        </section>
+        <div className="form">
+            <section>
+                <header>
+                    <h1>Update shareholder</h1>
+                </header>
+                <label htmlFor="name">Name</label>
+                <input type="text" placeholder={placeholder} ref={nameRef} />
+                <label htmlFor="sharepercentage">Share percentage</label>
+                <input type="number" placeholder="0.0" ref={percentageRef} />
+                <div className="tickbox">
+                <input type="checkbox" name="owner" id="owner" ref={ownerRef} />                    
+                <label htmlFor="isowner">Owned?</label>                
+                </div>                
+                <div className="tickbox">
+                <input type="checkbox" name="active" id="active" ref={activeRef} />
+                <label htmlFor="isactive">Active?</label>
+                </div>
+                <p>
+                <button onClick={handleUpdateShareholder}>Update</button>
+                <button className="Cancel" onClick={handleCancel}>Cancel</button>
+                </p>
+            </section>
+        </div>
+
     )
 }
