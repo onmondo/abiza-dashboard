@@ -61,13 +61,23 @@ export function UpdateExpense() {
     console.log(expenditure)
     return (
         <div className="form">
+            <section>
+                <header>
+                    <h1>Update expense</h1>
+                </header>
+            <label htmlFor="particulars">Particulars</label>
             <input type="text" placeholder="Particulars" ref={inputParticularsRef} onKeyDown={(e) => { if (e.key === "Enter") handleFocusBill() }} />
+            <label htmlFor="bill">Bill</label>
             <input type="number" ref={inputBillRef} onKeyDown={(e) => { if (e.key === "Enter") handleFocusDate() }} />
+            <label htmlFor="billingdate">Date</label>
             <input type="date" ref={inputDateRef} onKeyDown={(e) => { if (e.key === "Enter") handleFocusRemarks() }} />
-            <input type="text" placeholder="Remarks" ref={inputRemarksRef} onKeyDown={(e) => { if (e.key === "Enter") handleSubmit() }} />
-            
-            <button onClick={handleSubmit}>Update Expense</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <label htmlFor="remarks">Remarks</label>
+            <input type="text" placeholder="Remarks" ref={inputRemarksRef} onKeyDown={(e) => { if (e.key === "Enter") handleSubmit() }} />                
+            <p>
+            <button onClick={handleSubmit}>Update</button>
+            <button onClick={handleCancel}>Cancel</button>                
+            </p>
+            </section>
         </div>
     )
 }

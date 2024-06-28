@@ -3,7 +3,6 @@ import { deleteBooking, fetchAllBookings } from "../integrations/GuestBookings";
 import { useNavigate } from "react-router-dom";
 import { DashboardContext } from "../context/DashboardContext";
 import { amountFormatter, computeTotalRevenue } from "../util/currency"
-import "./GuestBookings.scss"
 
 export function GuestBookings() {
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
@@ -34,19 +33,18 @@ export function GuestBookings() {
     const getTotalRevenue = useMemo(() => computeTotalRevenue(bookings), [bookings])
 
     return (
-        <section className="guestbooking">
-            <header>
-                <h1>Guest bookings</h1>
+        <section className="dashboardbox">
+            <header className="dashboardheader">
+                <h1>{totalBookings} total guest bookings this month</h1>
                 <p>
-                {totalBookings} total bookings this month with the total revenue of&nbsp;
-                    <strong title="totalrevenue">{amountFormatter.format(getTotalRevenue)}</strong>
+                    with the total revenue of&nbsp; <strong title="totalrevenue">{amountFormatter.format(getTotalRevenue)}</strong> <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
                 </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
-                <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
+                
             </header>
             <section>
                 
-                <ul className="guestbookinglist">
+                <ol className="guestbookinglist">
                     {bookings
                         .filter(booking => 
                             searchKeys.some(searchKey => {
@@ -69,27 +67,36 @@ export function GuestBookings() {
                             }).format(new Date(booking.datePaid))
                         return (
                             <li key={booking._id} className="guestbookingitem">
-                                <article className="guestbookingdetails">
-                                    <h3>{booking.guestName}</h3>
-                                    <p>Booked in {booking.rooms.join(" and ")} from {booking.from}, {booking.noOfPax} pax, {booking.noOfStay} night/s of stay for a nightly price of {amountFormatter.format(booking.nightlyPrice)}</p>
-                                    <p>The guest checked-in {checkInDate} <input type="date" readOnly value={booking.checkIn.split("T")[0]} /> and checked-out {checkOutDate} <input type="date" readOnly value={booking.checkOut.split("T")[0]} />.</p>
+                                <article className="dashboarddetails">
+                                    <header>
+                                    <h3>{booking.guestName}, {booking.rooms.join(" and ")}</h3>
+                                    <sub>Booked from {booking.from}, {booking.noOfPax} pax, {booking.noOfStay} night/s of stay</sub><br />
+                                    <sub>Checked-in: {checkInDate}</sub><br />
+                                    <sub>Checked-out: {checkOutDate}</sub>
+                                    </header>
+                                    {/* <input type="date" readOnly value={booking.checkIn.split("T")[0]} /> */}
+                                    {/* <input type="date" readOnly value={booking.checkOut.split("T")[0]} /> */}
                                     {
                                     (booking.remarks.toLowerCase().includes('confirmed')) 
-                                        ? <p className="confirmed">The guest confirmed payment using {booking.modeOfPayment} as mode of payment on {datePaid} <input type="date" readOnly value={booking.datePaid.split("T")[0]} /> for a total of <strong>{amountFormatter.format(booking.totalPayout)}</strong>.</p>
-                                        : <p className="pending">The guest have not confirmed on payment yet</p>
+                                        ?   <section className="confirmed">
+                                                <h3>{amountFormatter.format(booking.totalPayout)}</h3>
+                                                <sub>Paid {booking.modeOfPayment} on {datePaid}</sub><br />
+                                                <sub>Nightly price of {amountFormatter.format(booking.nightlyPrice)}</sub>
+                                            </section> 
+                                        :   ""
                                     }
-                                    <button className="updatebooking" onClick={() => handleUpdateBooking(booking._id)}>Update booking</button>
-                                    <button className="deletebooking" onClick={() => handleDelete(booking._id)}>Delete booking</button>
+                                    {/* <input type="date" readOnly value={booking.datePaid.split("T")[0]} /> */}
                                 </article>
+                                <p className="buttongroup">
+                                    <button className="update" onClick={() => handleUpdateBooking(booking._id)}>Update</button>
+                                    <button className="delete" onClick={() => handleDelete(booking._id)}>Delete</button>
+                                </p>
                             </li>
                         )
                     })}
-                </ul>
+                </ol>
                 
             </section>
-            <footer>
-                <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
-            </footer>
         </section>
     )
 }

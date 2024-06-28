@@ -1,5 +1,118 @@
-.dashboard {
+.dashboardrows {
     display: flex;
     flex-wrap: wrap;
     gap: $flex_gap;
+    margin: $flex_gap;
+}
+
+.dashboardbox {
+    padding: 1rem;
+    border: 0.1rem $dashboard_bg_color solid;
+    border-radius: 1rem;
+
+    header {
+        margin: 0;
+
+        h1 {
+            font-size: 1.8rem;
+        }
+    }
+}
+
+.searchbox {
+    width: 80%;
+}
+
+.dashboardboxlist {
+    display: flex;
+    gap: $flex_gap;
+    list-style: none;
+    flex-wrap: wrap;
+    padding: 0;
+
+    h3 {
+        font-size: 2rem;
+        margin: 0;
+    }
+
+    li {
+        padding: 1rem;
+        border: 0.1rem $dashboard_bg_color solid;
+        border-radius: 1rem;
+        background-color: $dashboard_bg_color;
+        p {
+            display: flex;
+            gap: 1rem;
+        }
+    }
+
+    li.dbboxhighlight {
+        border: 0.1rem $main_bgh_color solid;
+        background-color: $main_bgh_color;
+        color: #ffffff;
+
+        button {
+            @include secondbutton;
+        }
+    }
+}
+
+.dashboarddetails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: $flex_gap;
+
+    sub {
+        color: #a09f9f;
+    }
+}
+
+.buttongroup {
+    display: flex;
+    justify-content: space-between;
+
+    .delete {
+        @include secondbutton;
+    }
+}
+
+@mixin labelmargin {
+    margin: 1rem 0 0.5rem 0;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    section {
+        grid-column: 2;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+
+        label {
+            @include labelmargin();
+            font-size: 0.8rem;
+        }
+        
+        p {
+            display: flex;
+            justify-content: space-between;
+
+            button.cancel {
+                @include secondbutton;
+            }
+        }
+
+        .tickbox {
+            @include labelmargin();
+            display: flex;
+            gap: 1rem;
+
+            label, input {
+                margin: 0
+            }
+        }
+    }
+    
 }

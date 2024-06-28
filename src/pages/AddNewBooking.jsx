@@ -38,21 +38,39 @@ export function AddNewBooking() {
 
     return (
         <div className="form">
-            <h1>Add new booking</h1>
+            
+            <section>
+            <header><h1>Add new booking</h1></header>
+            <label htmlFor="guestName">Guest Name</label>
             <input type="text" placeholder="Guest Name" onChange={handleOnChange} name="guestName" />
+            <label htmlFor="from">Booking From</label>
             <input type="text" placeholder="Booking From" onChange={handleOnChange} name="from" />
+            <label htmlFor="rooms">Room/s Taken</label>
             <input type="text" placeholder="Room/s Taken" onChange={handleOnChange} name="rooms" />
+            <label htmlFor="checkIn">Check In Date</label>
             <input type="date" placeholder="Check In Date" onChange={handleOnChange} name="checkIn" />
+            <label htmlFor="checkOut">Check Out Date</label>
             <input type="date" placeholder="Check Out Date" onChange={handleOnChange} name="checkOut" />
+            <label htmlFor="nightlyPrice">Nightly Price</label>
             <input type="number" placeholder="Nightly Price" onChange={handleOnChange} name="nightlyPrice" />
+            <label htmlFor="noOfPax">No of Pax</label>
             <input type="number" placeholder="No of Pax" onChange={handleOnChange} name="noOfPax" />
+            <label htmlFor="noOfStay">No of Stay</label>
             <input type="number" placeholder="No of Stay" onChange={handleOnChange} name="noOfStay" />
+            <label htmlFor="totalPayout">Total Payment</label>
             <input type="number" placeholder="Total Payment" onChange={handleOnChange} name="totalPayout" />
+            <label htmlFor="datePaid">Date Paid</label>
             <input type="date" placeholder="Date Paid" onChange={handleOnChange} name="datePaid" />
+            <label htmlFor="modeOfPayment">Mode of Payment</label>
             <input type="text" placeholder="Mode of Payment" onChange={handleOnChange} name="modeOfPayment" />
+            <label htmlFor="remarks">Remarks</label>
             <input type="text" placeholder="Remarks" onChange={handleOnChange} name="remarks" />
+            <p>
             <button onClick={handleNewBooking}>Add</button>
-            <button onClick={handleCancelBooking}>Cancel</button>
+            <button className="cancel" onClick={handleCancelBooking}>Cancel</button>                
+            </p>
+            </section>
+
         </div>
     )
 }
