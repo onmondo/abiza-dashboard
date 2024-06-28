@@ -33,10 +33,10 @@ export function Dashboard() {
                     <input title="monthselector" type="month" onChange={handleOnChange} value={searchDate} />
                 </p>
             </header>
-            <section className="overstats">
+            <section className="dashboardrows">
                 <EarningsSection />
             </section>
-            <section className="dashboard">
+            <section className="dashboardrows">
                 <GuestBookings />
                 <CapitalExpenditures />
                 {/* <UseRefDemo /> */}

@@ -1,4 +1,50 @@
-$flex_gap: 3rem;
+$flex_gap: 1rem;
+$dashboard_bg_color: #f8f8f8;
+$main_bgh_color: #bda0e2;
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+@mixin commonspace {
+    padding: 0.4rem 1rem;
+    border-radius: 1rem;
+}
+
+@mixin mainbutton {
+    @include commonspace;
+    border-style: none;
+    background-color: $main_bgh_color;
+    color: #ffffff;
+}
+
+@mixin secondbutton {
+    background-color: $dashboard_bg_color;
+    color: #000000;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+}
+
+main > * {
+    grid-column: 2;
+}
+
+.App {
+    header {
+        margin: $flex_gap
+    }
+
+    button {
+        @include mainbutton;
+    }
+    
+    input {
+        @include commonspace;
+    }
+}
 
 @import "src/pages/Dashboard.scss";
 @import "src/features/EarningsSection.scss";

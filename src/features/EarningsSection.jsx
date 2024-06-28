@@ -33,14 +33,23 @@ export const EarningsSection = function EarningsSection() {
     
     return (
         <section className="earningssection">
-            <section className="earnings">
+            <section className="dashboardbox">
                 <header>
                     <h1>Earnings</h1>
                 </header>
-                <ul className="earningslist">
-                    <li>Bookings: {amountFormatter.format(getTotalRevenue)}</li>
-                    <li>Expense: {amountFormatter.format(getTotalExpenditure)}</li>
-                    <li>Total Net: {amountFormatter.format(getNetIncome)}</li>
+                <ul className="dashboardboxlist">
+                    <li>
+                        <h3>{amountFormatter.format(getTotalRevenue)}</h3>
+                        <sub>Bookings</sub>
+                    </li>
+                    <li>
+                        <h3>{amountFormatter.format(getTotalExpenditure)}</h3>
+                        <sub>Expense</sub>
+                    </li>
+                    <li className="dbboxhighlight">
+                        <h3>{amountFormatter.format(getNetIncome)}</h3>
+                        <sub>Total Net</sub>
+                    </li>
                 </ul>
             </section>
             <Shareholders netIncome={getNetIncome}/>
