@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react"
 import { fetchShareholdersById, updateShareholder } from "../integrations/Sharesholders"
 import { useLocation, useNavigate } from "react-router-dom";
+import { toDecimal, toPercentage } from "../util/currency";
 
 export function UpdateShareholder({ placeholder }) {
     const location = useLocation()
@@ -21,7 +22,7 @@ export function UpdateShareholder({ placeholder }) {
 
     useEffect(() => {
         nameRef.current.value = shareholder.name
-        percentageRef.current.value = shareholder.percentage
+        percentageRef.current.value = toPercentage(shareholder.percentage)
         ownerRef.current.checked = shareholder.isOwner
         activeRef.current.checked = shareholder.isActive
     }, [shareholder])
@@ -29,7 +30,7 @@ export function UpdateShareholder({ placeholder }) {
     const handleUpdateShareholder = async () => {
         await updateShareholder(shareholderId, {
             name: nameRef.current.value,
-            percentage: Number(percentageRef.current.value),
+            percentage: toDecimal(percentageRef.current.value),
             isActive: true,
             isOwner: ownerRef.current.checked 
         })
@@ -60,7 +61,7 @@ export function UpdateShareholder({ placeholder }) {
                 </div>
                 <p>
                 <button onClick={handleUpdateShareholder}>Update</button>
-                <button className="Cancel" onClick={handleCancel}>Cancel</button>
+                <button className="cancel" onClick={handleCancel}>Cancel</button>
                 </p>
             </section>
         </div>

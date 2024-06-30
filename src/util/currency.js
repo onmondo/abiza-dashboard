@@ -26,3 +26,15 @@ export const computeTotalExpenditure = (expenditures) => {
         return total
     }, 0)
 }
+
+export const toDecimal = (percentageInput = 0 | "0") => {
+    const bigPercentage = Big(percentageInput)
+    const bigDecimal = bigPercentage.div(Big(100))
+    return bigDecimal.toNumber()
+}
+
+export const toPercentage = (decimalValue = 0 | "0") => {
+    const bigDecimalValue = Big(decimalValue)
+    const bigPercentage = bigDecimalValue.times(Big(100))
+    return bigPercentage.toNumber()
+}
