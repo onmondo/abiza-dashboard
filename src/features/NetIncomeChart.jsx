@@ -29,22 +29,6 @@ export function NetIncomeChart() {
     const [expenditures, setExpenditures] = useState([])
     const [setTotalBookings] = useState(0)
     const { searchDate } = useContext(DashboardContext)
-    // const [monthlyIncome, setMonthlyIncome] = useState([
-    //     { month:"Jan", amount: 0 },
-    //     { month:"Feb", amount: 0 },
-    //     { month:"Mar", amount: 0 },
-    //     { month:"Ap", amount: 0 },
-    //     { month:"May", amount: 0 },
-    //     { month:"Jun", amount: 0 },
-    //     { month:"Jul", amount: 0 },
-    //     { month:"Aug", amount: 0 },
-    //     { month:"Sep", amount: 0 },
-    //     { month:"Oct", amount: 0 },
-    //     { month:"Nov", amount: 0 },
-    //     { month:"Dec", amount: 0 },
-
-    // ])
-
 
     useEffect(() => {
         fetchAllBookings(setBookings, setTotalBookings, searchDate)
@@ -70,7 +54,6 @@ export function NetIncomeChart() {
     }
 
     const getNetIncome = useMemo(() => computeTotalNetIncome(), [bookings, expenditures])
-    console.log(monthlyIncome)
     return (
         <section className="dashboardbox">
         {/* <div className="chart"> */}
