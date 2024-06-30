@@ -1,6 +1,8 @@
 import React, { useRef } from "react"
 import { addNewShareholder } from "../integrations/Sharesholders"
 import { useLocation, useNavigate } from "react-router-dom";
+import Big from "big.js";
+import { toDecimal } from "../util/currency";
 
 export function AddShareholder({ placeholder }) {
     const nameRef = useRef("")
@@ -13,7 +15,7 @@ export function AddShareholder({ placeholder }) {
     const handleAddNewShareholder = async () => {
         await addNewShareholder({
             name: nameRef.current.value,
-            percentage: Number(percentageRef.current.value),
+            percentage: toDecimal(percentageRef.current.value),
             isOwner: ownerRef.current.checked 
         })
         navigate("/", { state: location.state})
