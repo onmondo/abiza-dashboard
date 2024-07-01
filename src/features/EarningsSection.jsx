@@ -1,12 +1,14 @@
 import React, { useMemo, useEffect, useState, useContext } from "react"
 import { Shareholders } from "../components/Shareholders"
 import { DashboardContext } from "../context/DashboardContext"
-import { amountFormatter, computeTotalExpenditure, computeTotalRevenue } from "../util/currency"
+import { computeTotalExpenditure, computeTotalRevenue } from "../util/currency"
 import { fetchAllBookings } from "../integrations/GuestBookings"
-import { fetchAllExpenditures } from "../integrations/CapitalExpenditures"
+import { deleteExpenditure, fetchAllExpenditures } from "../integrations/CapitalExpenditures"
 import Big from "big.js"
 import { NetIncomeChart } from "./NetIncomeChart"
 import { CapitalExpenditures } from "./CapitalExpenditures"
+import { EarningsSectionContext } from "../context/EarningsSectionContext"
+import { Overallstatus } from "../components/Overallstatus"
 
 export const EarningsSection = function EarningsSection() {
     const [bookings, setBookings] = useState([])
@@ -29,35 +31,29 @@ export const EarningsSection = function EarningsSection() {
         return bigNetIncome.toNumber()
     }
 
+    const handleDeleteExpense = async (expenditureId) => {
+        await deleteExpenditure(expenditureId)
+        await fetchAllExpenditures(setExpenditures, searchDate)
+    }
+
     const getNetIncome = useMemo(() => computeTotalNetIncome(), [bookings, expenditures])
 
     const currentMonth = Intl.DateTimeFormat('en', { month: "long"}).format(new Date(searchDate))
     return (
+        <EarningsSectionContext.Provider value={{
+            currentMonth,
+            expenditures, setExpenditures, getTotalExpenditure, handleDeleteExpense,
+            bookings, setBookings, setTotalBookings, getTotalRevenue,
+            getNetIncome
+            }}>
         <section className="earningssection">
             <section className="dashboardbox">
-                <header>
-                    <h1>💵 Earnings as of {currentMonth}</h1>
-                </header>
-                <ul className="dashboardboxlist">
-                    <li>
-                        <h3>{amountFormatter.format(getTotalRevenue)}</h3>
-                        <sub>Bookings</sub>
-                    </li>
-                    <li>
-                        <h3>{amountFormatter.format(getTotalExpenditure)}</h3>
-                        <sub>Expense</sub>
-                    </li>
-                    <li className="dbboxhighlight">
-                        <h3>{amountFormatter.format(getNetIncome)}</h3>
-                        <sub>Total Net</sub>
-                    </li>
-                </ul>
+                <Overallstatus />
                 <NetIncomeChart />
             </section> 
-            <Shareholders netIncome={getNetIncome}/> 
-            <CapitalExpenditures />          
-            
+            <Shareholders /> 
+            <CapitalExpenditures />
         </section>
-
+        </EarningsSectionContext.Provider>
     )
 }
