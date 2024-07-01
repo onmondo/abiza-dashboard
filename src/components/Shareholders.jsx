@@ -39,7 +39,7 @@ export const Shareholders = memo(function Shareholders({ netIncome }) {
     return (
         <section className="dashboardbox">
             <header>
-                <h1>Shareholders</h1>
+                <h1>🦸🏻 Shareholders</h1>
             </header>
             <ul className="dashboardboxlist sharesection">
                 {shareholders.map(shareholder => 

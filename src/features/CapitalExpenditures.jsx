@@ -35,7 +35,7 @@ export function CapitalExpenditures() {
     return (
         <section className="dashboardbox">
             <header>
-                <h1>Expenditures</h1>
+                <h1>💸 Expenditures</h1>
                 <p><strong>{amountFormatter.format(getTotalExpenditure)}</strong> total expenditures <button className="newexpense" onClick={handleNewExpense}>Add new expense</button></p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
             </header>
