@@ -25,7 +25,7 @@ $main_bgh_color: #bda0e2;
 
 main {
     display: grid;
-    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-columns: 0.5fr 10fr 0.5fr;
 }
 
 main > * {
@@ -33,9 +33,9 @@ main > * {
 }
 
 .App {
-    header {
-        margin: $flex_gap
-    }
+    display: grid;
+    grid-template-columns: 6fr 4.5fr;
+    align-items: start;
 
     button {
         @include mainbutton;

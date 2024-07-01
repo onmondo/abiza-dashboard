@@ -57,7 +57,7 @@ export function NetIncomeChart() {
     return (
         <section className="dashboardbox">
         {/* <div className="chart"> */}
-            <header><h1>Sales Analytics</h1></header>
+            <header><h1>📈 Sales Analytics</h1></header>
             {/* <h3 className="chartTitle">Sales Analytics</h3> */}
             <ResponsiveContainer aspect={4 / 2} minWidth={"400px"}>
             <LineChart

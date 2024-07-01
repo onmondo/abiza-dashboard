@@ -1,3 +1,22 @@
+.headernav{
+    margin: $flex_gap;
+    grid-column: 1 / span 2;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    z-index: 1;
+
+    p {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+        img {
+            width: 3rem;
+        }
+    }
+}
+
 .dashboardrows {
     display: flex;
     flex-wrap: wrap;
@@ -5,16 +24,28 @@
     margin: $flex_gap;
 }
 
+.dashboardrowcolumn1 {
+    grid-column: 1;
+    position: sticky;
+    top: 5rem;
+}
+
+.dashboardrowcolumn2 {
+    grid-column: 2;
+}
+
 .dashboardbox {
     padding: 1rem;
-    border: 0.1rem $dashboard_bg_color solid;
+    border: 0.15rem $dashboard_bg_color solid;
     border-radius: 1rem;
 
     header {
         margin: 0;
+        background-color: #ffffff;
 
         h1 {
             font-size: 1.8rem;
+            margin: 2rem 0;
         }
     }
 }
@@ -67,9 +98,19 @@
     justify-content: space-between;
     gap: $flex_gap;
 
+    section {
+        text-align: right;
+
+        &.deliquent {
+            color: #fc6464
+        }
+    }
+
     sub {
         color: #a09f9f;
     }
+
+
 }
 
 .buttongroup {
