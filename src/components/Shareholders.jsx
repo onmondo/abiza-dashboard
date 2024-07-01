@@ -4,9 +4,11 @@ import { deleteShareholder, fetchAllShareholders } from "../integrations/Sharesh
 import { DashboardContext } from "../context/DashboardContext";
 import Big from "big.js";
 import { amountFormatter } from "../util/currency";
+import { EarningsSectionContext } from "../context/EarningsSectionContext";
 
-export const Shareholders = memo(function Shareholders({ netIncome }) {
+export const Shareholders = memo(function Shareholders() {
     const { searchDate } = useContext(DashboardContext)
+    const { getNetIncome } = useContext(EarningsSectionContext)
     const [shareholders, setShareholders] = useState([])
 
     useEffect(() => {
@@ -29,7 +31,7 @@ export const Shareholders = memo(function Shareholders({ netIncome }) {
     }
     
     const computeShares = (percentage) => {
-        const bigNetIncome = Big(netIncome)
+        const bigNetIncome = Big(getNetIncome)
         const bigPercentage = Big(percentage)
         const bigShare = bigNetIncome.times(bigPercentage)
         return bigShare.round(2).toNumber()

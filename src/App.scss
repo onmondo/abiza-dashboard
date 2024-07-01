@@ -34,11 +34,12 @@ main > * {
 
 .App {
     display: grid;
-    grid-template-columns: 6fr 4.5fr;
+    grid-template-columns: 6fr 4.3fr;
     align-items: start;
 
     button {
         @include mainbutton;
+        cursor: pointer;
     }
     
     input {
