@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useMemo, useContext } from "react"
+import React, { useMemo, useContext } from "react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { DashboardContext } from "../context/DashboardContext";
-import { computeTotalExpenditure, computeTotalRevenue } from "../util/currency";
-import Big from "big.js";
-import { fetchAllBookings } from "../integrations/GuestBookings";
-import { fetchAllExpenditures } from "../integrations/CapitalExpenditures";
+import { EarningsSectionContext } from "../context/EarningsSectionContext";
 
 
 let monthlyIncome = 
@@ -25,27 +22,15 @@ let monthlyIncome =
     ]
 
 export function NetIncomeChart() {
-    const [bookings, setBookings] = useState([])
-    const [expenditures, setExpenditures] = useState([])
-    const [setTotalBookings] = useState(0)
     const { searchDate } = useContext(DashboardContext)
 
-    useEffect(() => {
-        fetchAllBookings(setBookings, setTotalBookings, searchDate)
-        fetchAllExpenditures(setExpenditures, searchDate)
-    }, [searchDate])
-
-    const getTotalRevenue = useMemo(() => computeTotalRevenue(bookings), [bookings])
-    const getTotalExpenditure = useMemo(() => computeTotalExpenditure(expenditures), [expenditures])
+    const { bookings, expenditures, getNetIncome } = useContext(EarningsSectionContext)
 
     const computeTotalNetIncome = () => {
-        const bigTotalRevenue = Big(getTotalRevenue)
-        const bitTotalExpense = Big(getTotalExpenditure)
-        const bigNetIncome = bigTotalRevenue.minus(bitTotalExpense)
         const currentMonth = Intl.DateTimeFormat('en', { month: "short"}).format(new Date(searchDate))
         monthlyIncome = ([ ...monthlyIncome.map(month => {
             if (month.month === currentMonth) {
-                return { ...month, amount: bigNetIncome.toNumber() }
+                return { ...month, amount: getNetIncome }
             } else {
                 return month
             }
@@ -53,7 +38,7 @@ export function NetIncomeChart() {
         return monthlyIncome
     }
 
-    const getNetIncome = useMemo(() => computeTotalNetIncome(), [bookings, expenditures])
+    const getMonthlyIncome = useMemo(() => computeTotalNetIncome(), [bookings, expenditures])
     return (
         <section className="dashboardbox">
         {/* <div className="chart"> */}
@@ -63,7 +48,7 @@ export function NetIncomeChart() {
             <LineChart
             width={500}
             height={300}
-            data={getNetIncome}
+            data={getMonthlyIncome}
             margin={{
                 top: 5,
                 right: 30,

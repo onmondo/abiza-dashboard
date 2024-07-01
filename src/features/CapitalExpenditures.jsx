@@ -1,23 +1,17 @@
-import React, { useEffect, useState, useContext, useMemo } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteExpenditure, fetchAllExpenditures } from "../integrations/CapitalExpenditures";
 import { DashboardContext } from "../context/DashboardContext"
-import { amountFormatter, computeTotalExpenditure } from "../util/currency"
+import { amountFormatter } from "../util/currency"
+import { EarningsSectionContext } from "../context/EarningsSectionContext";
 
 export function CapitalExpenditures() {
     const searchKeys = ["particulars", "remarks", "date"]
-    const [expenditures, setExpenditures] = useState([])
     const [query, setQuery] = useState("")
 
     const { searchDate } = useContext(DashboardContext)
-
-    useEffect(() => {
-        fetchAllExpenditures(setExpenditures, searchDate)
-    }, [searchDate])
+    const { expenditures, getTotalExpenditure, handleDeleteExpense } = useContext(EarningsSectionContext)
 
     const navigate = useNavigate()
-
-    const getTotalExpenditure = useMemo(() => computeTotalExpenditure(expenditures), [expenditures])
 
     const handleNewExpense = () => {
         navigate("/addExpense", { state: { searchDate }})
@@ -27,16 +21,13 @@ export function CapitalExpenditures() {
         navigate(`/updateExpense/${expenditureId}`, { state: { searchDate }})
     }
 
-    const handleDeleteExpense = async (expenditureId) => {
-        await deleteExpenditure(expenditureId)
-        await fetchAllExpenditures(setExpenditures, searchDate)
-    }
-
     return (
         <section className="dashboardbox">
             <header>
                 <h1>💸 Expenditures</h1>
-                <p><strong>{amountFormatter.format(getTotalExpenditure)}</strong> total expenditures <button className="newexpense" onClick={handleNewExpense}>Add new expense</button></p>
+                <p>
+                    <strong>{amountFormatter.format(getTotalExpenditure)}</strong> total expenditures <button className="newexpense" onClick={handleNewExpense}>Add new expense</button>
+                </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
             </header>
             <ol>
