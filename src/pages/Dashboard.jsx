@@ -7,7 +7,7 @@ import { DashboardContext } from "../context/DashboardContext";
 import { getCurrentDate } from "../util/searchDate"
 import { EarningsSection } from "../features/EarningsSection";
 import { NetIncomeChart } from "../features/NetIncomeChart";
-
+import logo from '../assets/logo-transparent.png';
 // import { UseRefDemo } from "../components/hookDemos/UseRefDemo";
 // import { UseLayoutEffectDemo } from "../components/hookDemos/UseLayoutEffectDemo"
 // import { UseImperativeHandleDemo } from "../components/hookDemos/UseImperativeHandleDemo"
@@ -28,18 +28,18 @@ export function Dashboard() {
 
     return (
         <DashboardContext.Provider value={{searchDate, setSearchDate}}>
-            <header>
-                <h1>Abiza Dashboard</h1>
+            <header className="headernav fullbleed">
                 <p>
+                    <img src={logo} role="presentation" fetchpriority="high" alt="Abiza Homestay Logo" />
                     <input title="monthselector" type="month" onChange={handleOnChange} value={searchDate} />
                 </p>
             </header>
-            <section className="dashboardrows">
+            <section className="dashboardrows dashboardrowcolumn1">
                 <EarningsSection />
             </section>
-            <section className="dashboardrows">
+            <section className="dashboardrows dashboardrowcolumn2">
                 <GuestBookings />
-                <CapitalExpenditures />
+                
                 {/* <UseRefDemo /> */}
                 {/* <UseLayoutEffectDemo /> */}
                 {/* <UseImperativeHandleDemo /> */}

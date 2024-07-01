@@ -6,6 +6,7 @@ import { fetchAllBookings } from "../integrations/GuestBookings"
 import { fetchAllExpenditures } from "../integrations/CapitalExpenditures"
 import Big from "big.js"
 import { NetIncomeChart } from "./NetIncomeChart"
+import { CapitalExpenditures } from "./CapitalExpenditures"
 
 export const EarningsSection = function EarningsSection() {
     const [bookings, setBookings] = useState([])
@@ -35,7 +36,7 @@ export const EarningsSection = function EarningsSection() {
         <section className="earningssection">
             <section className="dashboardbox">
                 <header>
-                    <h1>Earnings as of {currentMonth}</h1>
+                    <h1>💵 Earnings as of {currentMonth}</h1>
                 </header>
                 <ul className="dashboardboxlist">
                     <li>
@@ -53,7 +54,8 @@ export const EarningsSection = function EarningsSection() {
                 </ul>
                 <NetIncomeChart />
             </section> 
-            <Shareholders netIncome={getNetIncome}/>           
+            <Shareholders netIncome={getNetIncome}/> 
+            <CapitalExpenditures />          
             
         </section>
 

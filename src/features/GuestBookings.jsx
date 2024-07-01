@@ -35,7 +35,7 @@ export function GuestBookings() {
     return (
         <section className="dashboardbox">
             <header className="dashboardheader">
-                <h1>{totalBookings} total guest bookings this month</h1>
+                <h1>📅 {totalBookings} total guest bookings this month</h1>
                 <p>
                     with the total revenue of&nbsp; <strong title="totalrevenue">{amountFormatter.format(getTotalRevenue)}</strong> <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
                 </p>
@@ -78,7 +78,10 @@ export function GuestBookings() {
                                     {/* <input type="date" readOnly value={booking.checkOut.split("T")[0]} /> */}
                                     {
                                     (booking.remarks.toLowerCase().includes('pending')) 
-                                        ?   ""
+                                        ?   <section className="deliquent">
+                                                <h3>{amountFormatter.format(booking.totalPayout)}</h3>
+                                                <sub>Nightly price of {amountFormatter.format(booking.nightlyPrice)}</sub>
+                                            </section>
                                         :   <section className="confirmed">
                                                 <h3>{amountFormatter.format(booking.totalPayout)}</h3>
                                                 <sub>Paid {booking.modeOfPayment} on {datePaid}</sub><br />
