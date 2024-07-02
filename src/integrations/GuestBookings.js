@@ -12,7 +12,7 @@ export const fetchAllBookings = async (list, total, date) => {
             month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
         }
 
-        res = await axios.get(`http://localhost:3000/api/v1/bookings/${year}/${month}?sort=asc&page=1&limit=35`)
+        res = await axios.get(`${process.env.DEV_BOOKING_API_URL}/api/v1/bookings/${year}/${month}?sort=asc&page=1&limit=35`)
         list(res.data.monthlyBookings.data)
         total(res.data.monthlyBookings.totalCount)
     } catch (err) {
@@ -22,7 +22,7 @@ export const fetchAllBookings = async (list, total, date) => {
 
 export const addNewBooking = async (booking) => {
     try {
-        await axios.post("http://localhost:3000/api/v1/bookings", booking)
+        await axios.post(`${process.env.DEV_BOOKING_API_URL}/api/v1/bookings`, booking)
     } catch (err) {
         console.log(err)
     }
@@ -38,7 +38,7 @@ export const deleteBooking = async (date, bookingId) => {
             month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
         }
 
-        await axios.delete(`http://localhost:3000/api/v1/bookings/${year}/${month}/${bookingId}`)
+        await axios.delete(`${process.env.DEV_BOOKING_API_URL}/api/v1/bookings/${year}/${month}/${bookingId}`)
     } catch (err) {
         console.log(err)
     }
@@ -54,7 +54,7 @@ export const updateBooking = async (bookingId, booking) => {
             month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
         }
 
-        await axios.put(`http://localhost:3000/api/v1/bookings/${year}/${month}/${bookingId}`, booking)
+        await axios.put(`${process.env.DEV_BOOKING_API_URL}/api/v1/bookings/${year}/${month}/${bookingId}`, booking)
     } catch (err) {
         console.log(err)
     }
@@ -62,7 +62,7 @@ export const updateBooking = async (bookingId, booking) => {
 
 export const getBookingId = async (fn, bookingId) => {
     try {
-        const res = await axios.get(`http://localhost:3000/api/v1/bookings/${bookingId}`)
+        const res = await axios.get(`${process.env.DEV_BOOKING_API_URL}/api/v1/bookings/${bookingId}`)
         fn(res.data.booking)
     } catch (err) {
         console.log(err)

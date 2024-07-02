@@ -12,7 +12,7 @@ export const fetchAllExpenditures = async (fn, date) => {
             month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
         }
 
-        res = await axios.get(`http://localhost:3001/api/v1/cost/${year}/${month}`)
+        res = await axios.get(`${process.env.DEV_SHARES_API_URL}/api/v1/cost/${year}/${month}`)
         fn(res.data.data)
     } catch (err) {
         console.log(err)
@@ -30,7 +30,7 @@ export const addNewExpenditure = async (date, expense) => {
             month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
         }
 
-        await axios.post(`http://localhost:3001/api/v1/cost/${year}/${month}`, expense)
+        await axios.post(`${process.env.DEV_SHARES_API_URL}/api/v1/cost/${year}/${month}`, expense)
     } catch (err) {
         console.log(err)
     }
@@ -38,7 +38,7 @@ export const addNewExpenditure = async (date, expense) => {
 
 export const getExpenditureById = async (fn, expenditureId) => {
     try {
-        const res = await axios.get(`http://localhost:3001/api/v1/cost/${expenditureId}`)
+        const res = await axios.get(`${process.env.DEV_SHARES_API_URL}/api/v1/cost/${expenditureId}`)
         fn(res.data.data)
     } catch (err) {
         console.log(err)
@@ -56,7 +56,7 @@ export const updateExpenditure = async (expenditureId, date, expense) => {
             month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
         }
 
-        await axios.put(`http://localhost:3001/api/v1/cost/${expenditureId}`, { ...expense, year, month })
+        await axios.put(`${process.env.DEV_SHARES_API_URL}/api/v1/cost/${expenditureId}`, { ...expense, year, month })
     } catch (err) {
         console.log(err)
     }
@@ -64,7 +64,7 @@ export const updateExpenditure = async (expenditureId, date, expense) => {
 
 export const deleteExpenditure = async (expenditureId) => {
     try {
-        await axios.delete(`http://localhost:3001/api/v1/cost/${expenditureId}`)
+        await axios.delete(`${process.env.DEV_SHARES_API_URL}/api/v1/cost/${expenditureId}`)
     } catch (err) {
         console.log(err)
     }
