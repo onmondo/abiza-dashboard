@@ -19,13 +19,20 @@ npm i
 ```
 make start
 ```
-6. Go to `abiza-dashboard` directory and run the web app
+
+6. Go to `abiza-dashboard` and create a new `.env` file and add these variables
+```
+DEV_BOOKING_API_URL=http://localhost:3000
+DEV_SHARES_API_URL=http://localhost:3001
+```
+
+7. And finally run the web app by issuing these command
 ```
 npm run dev
 ```
 
 ## Other commands
-7. You may restart the web services by issuing these commands
+8. You may restart the web services by issuing these commands
 ```
 make stop
 make start
