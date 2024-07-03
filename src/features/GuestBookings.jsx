@@ -3,6 +3,7 @@ import { deleteBooking, fetchAllBookings } from "../integrations/GuestBookings";
 import { useNavigate } from "react-router-dom";
 import { DashboardContext } from "../context/DashboardContext";
 import { amountFormatter, computeTotalRevenue } from "../util/currency"
+import { computeFilteredList } from "../util/search";
 
 export function GuestBookings() {
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
@@ -31,6 +32,7 @@ export function GuestBookings() {
     }
 
     const getTotalRevenue = useMemo(() => computeTotalRevenue(bookings), [bookings])
+    const getFilteredBookings = useMemo(() => computeFilteredList(bookings, searchKeys, query), [bookings, query])
 
     return (
         <section className="dashboardbox">
@@ -40,21 +42,12 @@ export function GuestBookings() {
                     with the total revenue of&nbsp; <strong title="totalrevenue">{amountFormatter.format(getTotalRevenue)}</strong> <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
                 </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
-                
+                <sub>found {getFilteredBookings.length} records</sub> 
             </header>
             <section>
                 
                 <ol className="guestbookinglist">
-                    {bookings
-                        .filter(booking => 
-                            searchKeys.some(searchKey => {
-                                if (Array.isArray(booking[searchKey])) {
-                                    return booking[searchKey].join(",").toLowerCase().includes(query)
-                                } else {
-                                    return booking[searchKey].toLowerCase().includes(query)
-                                }
-                            })
-                        )
+                    {getFilteredBookings
                         .map(booking => {
                         const checkInDate = new Intl.DateTimeFormat('en', {
                             dateStyle: 'full',

@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { DashboardContext } from "../context/DashboardContext"
 import { amountFormatter } from "../util/currency"
 import { EarningsSectionContext } from "../context/EarningsSectionContext";
+import { computeFilteredList } from "../util/search";
 
 export function CapitalExpenditures() {
     const searchKeys = ["particulars", "remarks", "date"]
@@ -21,6 +22,8 @@ export function CapitalExpenditures() {
         navigate(`/updateExpense/${expenditureId}`, { state: { searchDate }})
     }
 
+    const getFilteredExpenditures = useMemo(() => computeFilteredList(expenditures, searchKeys, query), [expenditures, query])
+
     return (
         <section className="dashboardbox">
             <header>
@@ -29,19 +32,11 @@ export function CapitalExpenditures() {
                     <strong>{amountFormatter.format(getTotalExpenditure)}</strong> total expenditures <button className="newexpense" onClick={handleNewExpense}>Add new expense</button>
                 </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
+                <sub>found {getFilteredExpenditures.length} records</sub> 
             </header>
             <ol>
-                {expenditures
-                    .filter(expenditure => 
-                        searchKeys.some(searchKey => {
-                            if (Array.isArray(expenditure[searchKey])) {
-                                return expenditure[searchKey].join(",").toLowerCase().includes(query)
-                            } else {
-                                return expenditure[searchKey].toLowerCase().includes(query)
-                            }
-                        })
-                    )
-                    .map(expenditure => 
+                {getFilteredExpenditures
+                .map(expenditure => 
                     <li key={expenditure._id}>
                         <article className="dashboarddetails">
                             <header>
