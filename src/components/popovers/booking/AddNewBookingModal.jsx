@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { addNewBooking } from "../../integrations/GuestBookings";
-import { BookingInput } from "../BookingInput";
-import { DashboardContext } from "../../context/DashboardContext";
+import { addNewBooking } from "../../../integrations/GuestBookings";
+import { BookingInput } from "../../BookingInput";
+import { DashboardContext } from "../../../context/DashboardContext";
 import { inputs } from "./inputs";
 // import { useLocation, useNavigate } from "react-router-dom";
 

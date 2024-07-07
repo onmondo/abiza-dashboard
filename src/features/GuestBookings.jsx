@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useMemo, useContext, forwardRef, useImperativeHandle } from "react";
 import { deleteBooking, fetchAllBookings } from "../integrations/GuestBookings";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { DashboardContext } from "../context/DashboardContext";
 import { amountFormatter, computeTotalRevenue } from "../util/currency"
 import { computeFilteredList } from "../util/search";
-import { AddNewBookingModal } from "../components/popovers/AddNewBookingModal";
-import { UpdateBookingModal } from "../components/popovers/UpdateBookingModal";
+import { AddNewBookingModal } from "../components/popovers/booking/AddNewBookingModal";
+import { UpdateBookingModal } from "../components/popovers/booking/UpdateBookingModal";
 
 export function GuestBookings() {
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
     const [bookings, setBookings] = useState([])
     const [totalBookings, setTotalBookings] = useState(0)
-    const { searchDate, openBookingForm, setOpenBookingForm, setBookingFormId } = useContext(DashboardContext)
+    const { searchDate, openBookingForm, setBookingFormId } = useContext(DashboardContext)
     const [query, setQuery] = useState("")
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export function GuestBookings() {
         await fetchAllBookings(setBookings, setTotalBookings, searchDate)
     }
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     
     // const handleNewBooking = () => {
     //     // navigate("/add", { state: { searchDate }})
