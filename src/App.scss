@@ -1,6 +1,7 @@
 $flex_gap: 1rem;
 $dashboard_bg_color: #f8f8f8;
 $main_bgh_color: #bda0e2;
+$error_color: #fc6464;
 
 * {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
@@ -9,6 +10,7 @@ $main_bgh_color: #bda0e2;
 @mixin commonspace {
     padding: 0.4rem 1rem;
     border-radius: 1rem;
+    border: 0.1rem solid;
 }
 
 @mixin mainbutton {
@@ -44,9 +46,11 @@ main > * {
     
     input {
         @include commonspace;
+        padding: 0.6rem 1rem;
     }
 }
 
 @import "src/pages/Dashboard.scss";
 @import "src/features/EarningsSection.scss";
 @import "src/features/NetIncomeChart.scss";
+@import "src/components/popovers/BookingForm.scss";

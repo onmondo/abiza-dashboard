@@ -14,12 +14,12 @@ export const EarningsSection = function EarningsSection() {
     const [bookings, setBookings] = useState([])
     const [expenditures, setExpenditures] = useState([])
     const [setTotalBookings] = useState(0)
-    const { searchDate } = useContext(DashboardContext)
+    const { searchDate, openBookingForm } = useContext(DashboardContext)
 
     useEffect(() => {
         fetchAllBookings(setBookings, setTotalBookings, searchDate)
         fetchAllExpenditures(setExpenditures, searchDate)
-    }, [searchDate])
+    }, [searchDate, openBookingForm])
 
     const getTotalRevenue = useMemo(() => computeTotalRevenue(bookings), [bookings])
     const getTotalExpenditure = useMemo(() => computeTotalExpenditure(expenditures), [expenditures])

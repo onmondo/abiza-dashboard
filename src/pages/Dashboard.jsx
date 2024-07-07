@@ -21,13 +21,15 @@ export function Dashboard() {
     const location = useLocation()
     const currentDate = getCurrentDate(location.state)
     const [searchDate, setSearchDate] = useState(currentDate)
+    const [openBookingForm, setOpenBookingForm] = useState(false)
+    const [bookingFormId, setBookingFormId] = useState("")
 
     const handleOnChange = (e) =>{
         setSearchDate(e.target.value)
     }
 
     return (
-        <DashboardContext.Provider value={{searchDate, setSearchDate}}>
+        <DashboardContext.Provider value={{searchDate, setSearchDate, openBookingForm, setOpenBookingForm, bookingFormId, setBookingFormId}}>
             <header className="headernav fullbleed">
                 <p>
                     <img src={logo} role="presentation" fetchpriority="high" alt="Abiza Homestay Logo" />
