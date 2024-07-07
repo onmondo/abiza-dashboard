@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { getBookingId, updateBooking } from "../../integrations/GuestBookings";
+import { getBookingId, updateBooking } from "../../../integrations/GuestBookings";
 import { inputs } from "./inputs";
-import { DashboardContext } from "../../context/DashboardContext";
-import { BookingInput } from "../BookingInput";
+import { DashboardContext } from "../../../context/DashboardContext";
+import { BookingInput } from "../../BookingInput";
 
 export function UpdateBookingModal() {
     const [booking, setBooking] = useState({
