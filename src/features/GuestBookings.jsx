@@ -4,17 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { DashboardContext } from "../context/DashboardContext";
 import { amountFormatter, computeTotalRevenue } from "../util/currency"
 import { computeFilteredList } from "../util/search";
+import { AddNewBookingModal } from "../components/popovers/AddNewBookingModal";
+import { UpdateBookingModal } from "../components/popovers/UpdateBookingModal";
 
 export function GuestBookings() {
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
     const [bookings, setBookings] = useState([])
     const [totalBookings, setTotalBookings] = useState(0)
-    const { searchDate } = useContext(DashboardContext)
+    const { searchDate, openBookingForm, setOpenBookingForm, setBookingFormId } = useContext(DashboardContext)
     const [query, setQuery] = useState("")
 
     useEffect(() => {
         fetchAllBookings(setBookings, setTotalBookings, searchDate)
-    }, [searchDate])
+    }, [searchDate, openBookingForm])
 
     const handleDelete = async (bookingId) => {
         await deleteBooking(searchDate, bookingId)
@@ -23,12 +25,15 @@ export function GuestBookings() {
 
     const navigate = useNavigate()
     
-    const handleNewBooking = () => {
-        navigate("/add", { state: { searchDate }})
-    }
+    // const handleNewBooking = () => {
+    //     // navigate("/add", { state: { searchDate }})
+    //     setOpenBookingForm(!openBookingForm)
+    // }
 
     const handleUpdateBooking = (bookingId) => {
-        navigate(`/update/${bookingId}`, { state: { searchDate }})
+        // navigate(`/update/${bookingId}`, { state: { searchDate }})
+        // setOpenBookingForm(!openBookingForm)
+        setBookingFormId(bookingId)
     }
 
     const getTotalRevenue = useMemo(() => computeTotalRevenue(bookings), [bookings])
@@ -39,13 +44,21 @@ export function GuestBookings() {
             <header className="dashboardheader">
                 <h1>📅 {totalBookings} total guest bookings this month</h1>
                 <p>
-                    with the total revenue of&nbsp; <strong title="totalrevenue">{amountFormatter.format(getTotalRevenue)}</strong> <button className="newbooking" onClick={handleNewBooking}>Add new booking</button>
+                    with the total revenue of&nbsp; <strong title="totalrevenue">{amountFormatter.format(getTotalRevenue)}</strong> 
+                    &nbsp;
+                    <button 
+                        popovertarget="newbookingform" 
+                        className="newbooking" 
+                        // onClick={handleNewBooking}
+                    >
+                            Add new booking
+                    </button>
                 </p>
                 <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
                 <sub>found {getFilteredBookings.length} records</sub> 
             </header>
-            <section>
-                
+            <AddNewBookingModal />
+            <section>            
                 <ol className="guestbookinglist">
                     {getFilteredBookings
                         .map(booking => {
@@ -63,9 +76,9 @@ export function GuestBookings() {
                                 <article className="dashboarddetails">
                                     <header>
                                     <h3>{booking.guestName}, {booking.rooms.join(" and ")}</h3>
-                                    <sub>Booked from {booking.from}, {booking.noOfPax} pax, {booking.noOfStay} night/s of stay</sub><br />
+                                    <sub>From {booking.from}, {booking.noOfPax} pax, {booking.noOfStay} night/s of stay</sub><br />
                                     <sub>Checked-in: {checkInDate}</sub><br />
-                                    <sub>Checked-out: {checkOutDate}</sub>
+                                    <sub>Checked out: {checkOutDate}</sub>
                                     </header>
                                     {/* <input type="date" readOnly value={booking.checkIn.split("T")[0]} /> */}
                                     {/* <input type="date" readOnly value={booking.checkOut.split("T")[0]} /> */}
@@ -84,14 +97,14 @@ export function GuestBookings() {
                                     {/* <input type="date" readOnly value={booking.datePaid.split("T")[0]} /> */}
                                 </article>
                                 <p className="buttongroup">
-                                    <button className="update" onClick={() => handleUpdateBooking(booking._id)}>Update</button>
+                                    <button className="update" popovertarget="updatebookingform" onClick={() => handleUpdateBooking(booking._id)}>Update</button>
                                     <button className="delete" onClick={() => handleDelete(booking._id)}>Delete</button>
                                 </p>
                             </li>
                         )
                     })}
                 </ol>
-                
+                <UpdateBookingModal />
             </section>
         </section>
     )
