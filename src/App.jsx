@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { AddNewBooking } from "./pages/AddNewBooking";
 // import { UpdateBooking } from "./pages/UpdateBooking";
 import { Dashboard } from "./pages/Dashboard";
-import { AddNewExpense } from "./pages/AddNewExpense";
+// import { AddNewExpense } from "./pages/AddNewExpense";
 import { UpdateExpense } from "./pages/UpdateExpense";
 import "./App.scss"
 import { AddShareholder } from "./pages/AddShareholder";
@@ -18,7 +18,7 @@ export function App() {
                     <Route path="/" element={<Dashboard />}></Route>
                     {/* <Route path="/add" element={<AddNewBooking />}></Route> */}
                     {/* <Route path="/update/:id" element={<UpdateBooking />}></Route> */}
-                    <Route path="/addExpense" element={<AddNewExpense />}></Route>
+                    {/* <Route path="/addExpense" element={<AddNewExpense />}></Route> */}
                     <Route path="/updateExpense/:id" element={<UpdateExpense />}></Route>
                     <Route path="/addShareholder" element={<AddShareholder />}></Route>
                     <Route path="/updateShareholder/:id" element={<UpdateShareholder />}></Route>

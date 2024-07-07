@@ -1,15 +1,14 @@
-import React, { useRef } from "react"
-import { useLocation, useNavigate } from "react-router-dom";
-import { addNewExpenditure } from "../integrations/CapitalExpenditures"
+import React, { useContext, useRef } from "react"
+import { DashboardContext } from "../../../context/DashboardContext";
+import { addNewExpenditure } from "../../../integrations/CapitalExpenditures";
 
-export function AddNewExpense() {
+export function AddNewExpenseModal() {
     const inputParticularsRef = useRef("")
     const inputDateRef = useRef(new Date())
     const inputBillRef = useRef(0)
     const inputRemarksRef = useRef("")
 
-    const location = useLocation()
-    const navigate = useNavigate()
+    const { searchDate, openBookingForm, setOpenBookingForm } = useContext(DashboardContext)
 
     const handleFocusDate = () => {
         inputDateRef.current.focus()
@@ -29,22 +28,18 @@ export function AddNewExpense() {
         const inputBill = inputBillRef.current.value
         const inputRemarks = inputRemarksRef.current.value
 
-        await addNewExpenditure(location.state.searchDate, { 
+        await addNewExpenditure(searchDate, { 
             date: inputDate,
             particulars: inputParticulars,
             totalBill: Number(inputBill),
             remarks: inputRemarks
         })
         
-        navigate("/", { state: location.state})
-    }
-
-    const handleCancel = async () => {
-        navigate("/", { state: location.state})
+        setOpenBookingForm(!openBookingForm)
     }
 
     return (
-        <div className="form">
+        <div id="newexpenseform" popover="">
             <section>
             <header><h1>Add new expense</h1></header>
             <label htmlFor="particulars">Particulars</label>
@@ -56,8 +51,8 @@ export function AddNewExpense() {
             <label htmlFor="remarks">Remarks</label>
             <input type="text" placeholder="Remarks" ref={inputRemarksRef} onKeyDown={(e) => { if (e.key === "Enter") handleSubmit() }}/>
             <p>
-            <button onClick={handleSubmit}>Add</button>
-            <button className="cancel" onClick={handleCancel}>Cancel</button>                
+            <button popovertarget="newexpenseform" onClick={handleSubmit}>Add</button>
+            <button className="cancel" popovertarget="newexpenseform">Cancel</button>                
             </p>            
             </section>
         </div>
