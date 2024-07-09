@@ -10,7 +10,7 @@ export function AddNewBookingModal() {
     const [booking, setBooking] = useState({
         guestName: "",
         from: "",
-        rooms: "",
+        rooms: [],
         checkIn: "",
         checkOut: "",
         nightlyPrice: 0,
@@ -25,7 +25,20 @@ export function AddNewBookingModal() {
     const { openBookingForm, setOpenBookingForm } = useContext(DashboardContext)
 
     const handleOnChange = (e) =>{
-        setBooking((prev) => ({...prev, [e.target.name]: e.target.value}))
+        setBooking((prev) => {
+            if (e.target.name === "rooms") {
+                const enteredRooms = e.target.value.split(",")
+                return {
+                    ...prev, 
+                    [e.target.name]: enteredRooms
+                }
+            } else {
+                return {
+                    ...prev, 
+                    [e.target.name]: e.target.value}
+            }
+            
+        })
     }
 
     const handleNewBooking = async (e) => {
