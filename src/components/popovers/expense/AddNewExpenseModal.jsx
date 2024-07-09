@@ -34,6 +34,11 @@ export function AddNewExpenseModal() {
             totalBill: Number(inputBill),
             remarks: inputRemarks
         })
+
+        inputParticularsRef.current.value = ""
+        inputDateRef.current.value = new Date()
+        inputBillRef.current.value = 0
+        inputRemarksRef.current.value = ""
         
         setOpenBookingForm(!openBookingForm)
     }
