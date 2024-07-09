@@ -1,26 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { addNewBooking } from "../../../integrations/GuestBookings";
 import { BookingInput } from "../../BookingInput";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { inputs } from "./inputs";
-// import { useLocation, useNavigate } from "react-router-dom";
 
+const defaultBookingState = {
+    guestName: "",
+    from: "",
+    rooms: [],
+    checkIn: "",
+    checkOut: "",
+    nightlyPrice: 0,
+    noOfPax: 0,
+    noOfStay: 0,
+    totalPayout: 0,
+    datePaid: "",
+    modeOfPayment: "",
+    remarks: ""
+}
 
 export function AddNewBookingModal() {
-    const [booking, setBooking] = useState({
-        guestName: "",
-        from: "",
-        rooms: [],
-        checkIn: "",
-        checkOut: "",
-        nightlyPrice: 0,
-        noOfPax: 0,
-        noOfStay: 0,
-        totalPayout: 0,
-        datePaid: "",
-        modeOfPayment: "",
-        remarks: ""
-    })
+    const [booking, setBooking] = useState(defaultBookingState)
 
     const { openBookingForm, setOpenBookingForm } = useContext(DashboardContext)
 
@@ -45,6 +45,7 @@ export function AddNewBookingModal() {
         await addNewBooking(booking)
         // navigate("/", { state: location.state})
         setOpenBookingForm(!openBookingForm)
+        setBooking(defaultBookingState)
     }
 
     return (

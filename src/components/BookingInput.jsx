@@ -1,8 +1,15 @@
-import React, { useState } from "react"
+import React, { useContext, useLayoutEffect, useState } from "react"
+import { DashboardContext } from "../context/DashboardContext"
 
 export function BookingInput({  name, label, errorSpiel, onChange, ...inputTypeProps }) {
 
     const [focused, setFocused] = useState(false)
+
+    const { openBookingForm } = useContext(DashboardContext)
+
+    useLayoutEffect(() => {
+        setFocused(false)
+    }, [openBookingForm])
 
     const handleFocus = (e) => {
         setFocused(true)
@@ -16,10 +23,10 @@ export function BookingInput({  name, label, errorSpiel, onChange, ...inputTypeP
             name={name} 
             onChange={onChange} 
             onBlur={handleFocus}
-            onFocus={() => inputTypeProps.name==="remarks" && setFocused(true)}
+            onFocus={() => inputTypeProps.name==="remarks" && setFocused(false)}
             focused={focused.toString()}
             />
-        <span>{focused && errorSpiel}</span>        
+        <span>{errorSpiel}</span>        
         </>
     )
 }
