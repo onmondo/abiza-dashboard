@@ -8,6 +8,7 @@ import { AddNewBookingModal } from "../components/popovers/booking/AddNewBooking
 import { UpdateBookingModal } from "../components/popovers/booking/UpdateBookingModal";
 import { AddNewAmenityUsageModal } from "../components/popovers/amenityUsage/AddNewAmenityUsageModal copy";
 import { UpdateAmenityUsageModal } from "../components/popovers/amenityUsage/UpdateAmenityUsageModal";
+import { DeleteBookingModal } from "../components/popovers/booking/DeleteBookingModal";
 
 export function GuestBookings() {
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
@@ -21,8 +22,9 @@ export function GuestBookings() {
     }, [searchDate, openBookingForm])
 
     const handleDelete = async (bookingId) => {
-        await deleteBooking(searchDate, bookingId)
-        await fetchAllBookings(setBookings, setTotalBookings, searchDate)
+        setBookingFormId(bookingId)
+        // await deleteBooking(searchDate, bookingId)
+        // await fetchAllBookings(setBookings, setTotalBookings, searchDate)
     }
 
     const handleDeleteAmenity = async (bookingId, amenityId) => {
@@ -76,6 +78,7 @@ export function GuestBookings() {
             </header>
             <AddNewBookingModal />
             <UpdateBookingModal />
+            <DeleteBookingModal />
             <section>            
                 <ol className="guestbookinglist">
                     {getFilteredBookings
@@ -144,7 +147,7 @@ export function GuestBookings() {
                                 <p className="buttongroup">
                                     <button className="update" popovertarget="updatebookingform" onClick={() => handleUpdateBooking(booking._id)}>📝 Update booking</button>
                                     <button className="update" popovertarget="newamenityusage" onClick={() => handleUpdateBooking(booking._id)}>✨ Add amenity usage</button>
-                                    <button className="delete" onClick={() => handleDelete(booking._id)}>🚽 Delete</button>
+                                    <button className="delete" popovertarget="deletebookingform" onClick={() => handleDelete(booking._id)}>🚽 Delete</button>
                                 </p>                                
                             </li>
                         )
