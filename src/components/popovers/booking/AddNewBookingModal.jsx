@@ -3,6 +3,7 @@ import { addNewBooking } from "../../../integrations/GuestBookings";
 import { BookingInput } from "../../BookingInput";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { inputs } from "./inputs";
+import Big from "big.js";
 
 const defaultBookingState = {
     guestName: "",
@@ -32,6 +33,36 @@ export function AddNewBookingModal() {
                     ...prev, 
                     [e.target.name]: enteredRooms
                 }
+            } else if (e.target.name === "checkIn") {
+                return {
+                    ...prev, 
+                    [e.target.name]: e.target.value,
+                    checkOut: e.target.value
+                }
+            } else if (e.target.name === "nightlyPrice") {
+                return {
+                    ...prev, 
+                    [e.target.name]: e.target.value,
+                    totalPayout: e.target.value
+                }
+            } else if (e.target.name === "noOfPax") {
+                const bigNoOfPax = Big(e.target.value).minus(Big(1))
+                const bigNightlyPrice = Big(booking.nightlyPrice)
+                const totalPayout = (e.target.value > 2) 
+                    ? bigNoOfPax.times(bigNightlyPrice).toNumber()
+                    : booking.totalPayout
+                return {
+                    ...prev, 
+                    [e.target.name]: e.target.value,
+                    totalPayout
+                }
+            } else if (e.target.name === "noOfStay") {
+                const totalPayout = Big(booking.totalPayout).times(Big(e.target.value)).toNumber()
+                return {
+                    ...prev, 
+                    [e.target.name]: e.target.value,
+                    totalPayout
+                }                  
             } else {
                 return {
                     ...prev, 
