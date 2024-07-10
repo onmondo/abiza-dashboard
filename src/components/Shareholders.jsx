@@ -37,7 +37,6 @@ export const Shareholders = memo(function Shareholders() {
         return bigShare.round(2).toNumber()
     }
 
-    console.log("shareholders component re-renderd")
     return (
         <section className="dashboardbox">
             <header>
