@@ -13,7 +13,7 @@ import { Overallstatus } from "../components/Overallstatus"
 export const EarningsSection = function EarningsSection() {
     const [bookings, setBookings] = useState([])
     const [expenditures, setExpenditures] = useState([])
-    const [setTotalBookings] = useState(0)
+    const [totalBookings, setTotalBookings] = useState(0)
     const { searchDate, openBookingForm, hasDeletion } = useContext(DashboardContext)
 
     useEffect(() => {
