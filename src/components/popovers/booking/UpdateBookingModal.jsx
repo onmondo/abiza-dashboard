@@ -3,6 +3,7 @@ import { getBookingId, updateBooking } from "../../../integrations/GuestBookings
 import { inputs } from "./inputs";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { BookingInput } from "../../BookingInput";
+import Big from "big.js";
 
 export function UpdateBookingModal() {
     const [booking, setBooking] = useState({
@@ -35,6 +36,41 @@ export function UpdateBookingModal() {
                     ...prev, 
                     [e.target.name]: enteredRooms
                 }
+            } else if (e.target.name === "checkIn") {
+                return {
+                    ...prev, 
+                    [e.target.name]: e.target.value,
+                    checkOut: e.target.value,
+                    datePaid: e.target.value
+                }
+            } else if (e.target.name === "nightlyPrice") {
+                return {
+                    ...prev, 
+                    [e.target.name]: e.target.value,
+                    totalPayout: e.target.value
+                }
+            } else if (e.target.name === "noOfPax") {
+                const noOfPax = (e.target.value.length > 0) ? e.target.value : 0
+                const bigNoOfPax =  (noOfPax == 1) ? Big(noOfPax) : Big(noOfPax).minus(Big(1))
+                const bigNightlyPrice = Big(booking.nightlyPrice)
+                const totalPayout = (noOfPax > 2) 
+                    ? bigNoOfPax.times(bigNightlyPrice).toNumber()
+                    : bigNightlyPrice.times(Big(1)).toNumber()
+                return {
+                    ...prev, 
+                    [e.target.name]: noOfPax,
+                    totalPayout
+                }
+            } else if (e.target.name === "noOfStay") {
+                const noOfStay = (e.target.value.length > 0) ? e.target.value : 0
+                const bigNoOfPax = (booking.noOfPax == 1) ? Big(booking.noOfPax) : Big(booking.noOfPax).minus(Big(1))
+                const bigNightlyPrice = Big(booking.nightlyPrice)
+                const totalPayout = bigNoOfPax.times(bigNightlyPrice).times(Big(noOfStay)).toNumber()
+                return {
+                    ...prev, 
+                    [e.target.name]: noOfStay,
+                    totalPayout
+                }                  
             } else {
                 return {
                     ...prev, 

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useMemo, useContext, forwardRef, useImperativeHandle } from "react";
-import { deleteAmenityIncome, deleteBooking, fetchAllBookings } from "../integrations/GuestBookings";
-// import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import { deleteAmenityIncome, fetchAllBookings } from "../integrations/GuestBookings";
 import { DashboardContext } from "../context/DashboardContext";
 import { amountFormatter, computeTotalRevenue } from "../util/currency"
 import { computeFilteredList } from "../util/search";
 import { AddNewBookingModal } from "../components/popovers/booking/AddNewBookingModal";
 import { UpdateBookingModal } from "../components/popovers/booking/UpdateBookingModal";
 import { AddNewAmenityUsageModal } from "../components/popovers/amenityUsage/AddNewAmenityUsageModal copy";
-import { UpdateAmenityUsageModal } from "../components/popovers/amenityUsage/UpdateAmenityUsageModal";
+// import { UpdateAmenityUsageModal } from "../components/popovers/amenityUsage/UpdateAmenityUsageModal";
 import { DeleteBookingModal } from "../components/popovers/booking/DeleteBookingModal";
+import Big from "big.js";
 
 export function GuestBookings() {
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
@@ -21,28 +21,13 @@ export function GuestBookings() {
         fetchAllBookings(setBookings, setTotalBookings, searchDate)
     }, [searchDate, openBookingForm])
 
-    const handleDelete = async (bookingId) => {
-        setBookingFormId(bookingId)
-        // await deleteBooking(searchDate, bookingId)
-        // await fetchAllBookings(setBookings, setTotalBookings, searchDate)
-    }
-
     const handleDeleteAmenity = async (bookingId, amenityId) => {
         await deleteAmenityIncome(searchDate, amenityId, bookingId)
         await fetchAllBookings(setBookings, setTotalBookings, searchDate)
         setHasDeletion(!hasDeletion) // triggers the update to earnings section component
     }
 
-    // const navigate = useNavigate()
-    
-    // const handleNewBooking = () => {
-    //     // navigate("/add", { state: { searchDate }})
-    //     setOpenBookingForm(!openBookingForm)
-    // }
-
     const handleUpdateBooking = (bookingId) => {
-        // navigate(`/update/${bookingId}`, { state: { searchDate }})
-        // setOpenBookingForm(!openBookingForm)
         setBookingFormId(bookingId)
     }
 
@@ -58,6 +43,17 @@ export function GuestBookings() {
     const getTotalRevenue = useMemo(() => computeTotalRevenue(bookings), [bookings])
     const getFilteredBookings = useMemo(() => computeFilteredList(bookings, searchKeys, query), [bookings, query])
 
+    const computeDiscount = (booking) => {
+        if (booking.nightlyPrice !== booking.totalPayout) {
+            const bigNoOfPax = Big(booking.noOfPax).minus(Big(1))
+            const bigNightlyPrice = Big(booking.nightlyPrice)
+            const bigTotalPayout = bigNoOfPax.times(bigNightlyPrice).times(Big(booking.noOfStay))
+            const discount = bigTotalPayout.minus(Big(booking.totalPayout)).toNumber()
+            return amountFormatter.format(discount)
+        }
+        return amountFormatter.format(0)
+    }
+
     return (
         <section className="dashboardbox">
             <header className="dashboardheader">
@@ -68,7 +64,6 @@ export function GuestBookings() {
                     <button 
                         popovertarget="newbookingform" 
                         className="newbooking" 
-                        // onClick={handleNewBooking}
                     >
                             ✨ Add new booking
                     </button>
@@ -101,8 +96,6 @@ export function GuestBookings() {
                                     <sub>Checked-in: {checkInDate}</sub><br />
                                     <sub>Checked out: {checkOutDate}</sub>
                                     </header>
-                                    {/* <input type="date" readOnly value={booking.checkIn.split("T")[0]} /> */}
-                                    {/* <input type="date" readOnly value={booking.checkOut.split("T")[0]} /> */}
                                     {
                                     (booking.remarks.toLowerCase().includes('pending')) 
                                         ?   <section className="deliquent">
@@ -112,10 +105,10 @@ export function GuestBookings() {
                                         :   <section className="confirmed">
                                                 <h3>{amountFormatter.format(booking.totalPayout)}</h3>
                                                 <sub>Paid {booking.modeOfPayment} on {datePaid}</sub><br />
-                                                <sub>Nightly price of {amountFormatter.format(booking.nightlyPrice)}</sub>
+                                                <sub>Nightly price of {amountFormatter.format(booking.nightlyPrice)}</sub><br />
+                                                <sub>Discount {computeDiscount(booking)}</sub>
                                             </section> 
                                     }
-                                    {/* <input type="date" readOnly value={booking.datePaid.split("T")[0]} /> */}
                                 </article>
                                 <section className="amenities">
                                 {(booking.amenityUsage && booking.amenityUsage.length > 0) 
@@ -147,7 +140,7 @@ export function GuestBookings() {
                                 <p className="buttongroup">
                                     <button className="update" popovertarget="updatebookingform" onClick={() => handleUpdateBooking(booking._id)}>📝 Update booking</button>
                                     <button className="update" popovertarget="newamenityusage" onClick={() => handleUpdateBooking(booking._id)}>✨ Add amenity usage</button>
-                                    <button className="delete" popovertarget="deletebookingform" onClick={() => handleDelete(booking._id)}>🚽 Delete</button>
+                                    <button className="delete" popovertarget="deletebookingform" onClick={() => handleUpdateBooking(booking._id)}>🚽 Delete</button>
                                 </p>                                
                             </li>
                         )
