@@ -48,11 +48,11 @@ export function AddNewBookingModal() {
                 }
             } else if (e.target.name === "noOfPax") {
                 const noOfPax = (e.target.value.length > 0) ? e.target.value : 0
-                const bigNoOfPax = Big(noOfPax).minus(Big(1))
+                const bigNoOfPax =  (noOfPax == 1) ? Big(noOfPax) : Big(noOfPax).minus(Big(1))
                 const bigNightlyPrice = Big(booking.nightlyPrice)
                 const totalPayout = (noOfPax > 2) 
                     ? bigNoOfPax.times(bigNightlyPrice).toNumber()
-                    : booking.totalPayout
+                    : bigNightlyPrice.times(Big(1)).toNumber()
                 return {
                     ...prev, 
                     [e.target.name]: noOfPax,
@@ -60,7 +60,7 @@ export function AddNewBookingModal() {
                 }
             } else if (e.target.name === "noOfStay") {
                 const noOfStay = (e.target.value.length > 0) ? e.target.value : 0
-                const bigNoOfPax = Big(booking.noOfPax).minus(Big(1))
+                const bigNoOfPax = (booking.noOfPax == 1) ? Big(booking.noOfPax) : Big(booking.noOfPax).minus(Big(1))
                 const bigNightlyPrice = Big(booking.nightlyPrice)
                 const totalPayout = bigNoOfPax.times(bigNightlyPrice).times(Big(noOfStay)).toNumber()
                 return {
