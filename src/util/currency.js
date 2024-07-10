@@ -10,7 +10,17 @@ export const computeTotalRevenue = (bookings) => {
     return bookings.reduce((total, booking) => {
         const bigTotal = Big(total)
         const bigPayout = Big(booking.totalPayout)
-        total = bigTotal.plus(bigPayout).toNumber()
+        let amenityIncome = 0
+        // compute amenity usage income
+        if (booking.amenityUsage && booking.amenityUsage.length > 0) {
+            amenityIncome = booking.amenityUsage.reduce((income, amenity) => {
+                const bigIncome = Big(income)
+                const bigAmount = Big(amenity.amountPaid)
+                income = bigIncome.plus(bigAmount).toNumber()
+                return income
+            }, 0)
+        }
+        total = bigTotal.plus(bigPayout).plus(Big(amenityIncome)).toNumber()
 
         return total
     }, 0)
