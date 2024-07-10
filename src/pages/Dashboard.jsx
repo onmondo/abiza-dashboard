@@ -22,8 +22,10 @@ export function Dashboard() {
     const currentDate = getCurrentDate(location.state)
     const [searchDate, setSearchDate] = useState(currentDate)
     const [openBookingForm, setOpenBookingForm] = useState(false)
+    const [hasDeletion, setHasDeletion] = useState(false)
     const [bookingFormId, setBookingFormId] = useState("")
     const [expenseId, setExpenseId] = useState("")
+    const [amenityId, setAmenityId] = useState(null)
 
     const handleOnChange = (e) =>{
         setSearchDate(e.target.value)
@@ -33,8 +35,10 @@ export function Dashboard() {
         <DashboardContext.Provider value={{
                 searchDate, setSearchDate, 
                 openBookingForm, setOpenBookingForm, 
+                hasDeletion, setHasDeletion,
                 bookingFormId, setBookingFormId,
-                expenseId, setExpenseId
+                expenseId, setExpenseId,
+                amenityId, setAmenityId,
             }}>
             <header className="headernav fullbleed">
                 <p>

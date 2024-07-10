@@ -9,7 +9,7 @@ let monthlyIncome =
         { month:"Jan", amount: 0 },
         { month:"Feb", amount: 0 },
         { month:"Mar", amount: 0 },
-        { month:"Ap", amount: 0 },
+        { month:"Apr", amount: 0 },
         { month:"May", amount: 0 },
         { month:"Jun", amount: 0 },
         { month:"Jul", amount: 0 },
