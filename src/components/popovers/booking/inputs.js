@@ -46,7 +46,6 @@ export const inputs = [
         placeholder: "Nightly Price",
         label: "Nightly Price",
         errorSpiel: "Nightly price is required",
-        required: true
     },
     {
         name: "noOfPax",
@@ -70,7 +69,6 @@ export const inputs = [
         placeholder: "Total Payment",
         label: "Total Payment",
         errorSpiel: "Total payment is required",
-        required: true
     },
     {
         name: "datePaid",
@@ -78,7 +76,6 @@ export const inputs = [
         placeholder: "Date Paid",
         label: "Date Paid",
         errorSpiel: "Date paid is required",
-        required: true
     },
     {
         name: "modeOfPayment",
