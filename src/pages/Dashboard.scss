@@ -1,4 +1,14 @@
-.headernav{
+@mixin commonamountdisplay {
+    section {
+        text-align: right;
+    }
+
+    sub {
+        color: #a09f9f;
+    }
+}
+
+.headernav {
     margin: $flex_gap;
     grid-column: 1 / span 2;
     position: sticky;
@@ -99,19 +109,26 @@
     justify-content: space-between;
     gap: $flex_gap;
 
+    @include commonamountdisplay;
+    
     section {
-        text-align: right;
-
         &.deliquent {
             color: $error_color
         }
     }
+}
 
-    sub {
-        color: #a09f9f;
+.amenities {
+    ul {
+        list-style: none;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @include commonamountdisplay;
     }
-
-
 }
 
 .buttongroup {

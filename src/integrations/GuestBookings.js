@@ -68,3 +68,51 @@ export const getBookingId = async (fn, bookingId) => {
         console.log(err)
     }
 }
+
+export const addNewAmenityIncome = async (date, amenity, bookingId) => {
+    try {
+        let year = Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date());
+        let month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date());
+        if (date && date.length > 0) {
+            const dateDetails = date.split("-")
+            year = dateDetails[0]
+            month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
+        }
+
+        await axios.put(`${process.env.DEV_BOOKING_API_URL}/api/v1/bookings/${year}/${month}/${bookingId}/amenities`, amenity)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const deleteAmenityIncome = async (date, amenityId, bookingId) => {
+    try {
+        let year = Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date());
+        let month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date());
+        if (date && date.length > 0) {
+            const dateDetails = date.split("-")
+            year = dateDetails[0]
+            month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
+        }
+
+        await axios.delete(`${process.env.DEV_BOOKING_API_URL}/api/v1/bookings/${year}/${month}/${bookingId}/amenities/${amenityId}`)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const updateAmenityIncome = async (date, amenity, bookingId, amenityId) => {
+    try {
+        let year = Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date());
+        let month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date());
+        if (date && date.length > 0) {
+            const dateDetails = date.split("-")
+            year = dateDetails[0]
+            month = Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(dateDetails[1]));
+        }
+
+        await axios.put(`${process.env.DEV_BOOKING_API_URL}/api/v1/bookings/${year}/${month}/${bookingId}/amenities/${amenityId}`, amenity)
+    } catch (err) {
+        console.log(err)
+    }
+}
