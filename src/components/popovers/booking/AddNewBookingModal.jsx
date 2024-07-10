@@ -37,7 +37,8 @@ export function AddNewBookingModal() {
                 return {
                     ...prev, 
                     [e.target.name]: e.target.value,
-                    checkOut: e.target.value
+                    checkOut: e.target.value,
+                    datePaid: e.target.value
                 }
             } else if (e.target.name === "nightlyPrice") {
                 return {
@@ -46,21 +47,25 @@ export function AddNewBookingModal() {
                     totalPayout: e.target.value
                 }
             } else if (e.target.name === "noOfPax") {
-                const bigNoOfPax = Big(e.target.value).minus(Big(1))
+                const noOfPax = (e.target.value.length > 0) ? e.target.value : 0
+                const bigNoOfPax = Big(noOfPax).minus(Big(1))
                 const bigNightlyPrice = Big(booking.nightlyPrice)
-                const totalPayout = (e.target.value > 2) 
+                const totalPayout = (noOfPax > 2) 
                     ? bigNoOfPax.times(bigNightlyPrice).toNumber()
                     : booking.totalPayout
                 return {
                     ...prev, 
-                    [e.target.name]: e.target.value,
+                    [e.target.name]: noOfPax,
                     totalPayout
                 }
             } else if (e.target.name === "noOfStay") {
-                const totalPayout = Big(booking.totalPayout).times(Big(e.target.value)).toNumber()
+                const noOfStay = (e.target.value.length > 0) ? e.target.value : 0
+                const bigNoOfPax = Big(booking.noOfPax).minus(Big(1))
+                const bigNightlyPrice = Big(booking.nightlyPrice)
+                const totalPayout = bigNoOfPax.times(bigNightlyPrice).times(Big(noOfStay)).toNumber()
                 return {
                     ...prev, 
-                    [e.target.name]: e.target.value,
+                    [e.target.name]: noOfStay,
                     totalPayout
                 }                  
             } else {
