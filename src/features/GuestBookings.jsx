@@ -56,7 +56,6 @@ export function GuestBookings() {
     const getTotalRevenue = useMemo(() => computeTotalRevenue(bookings), [bookings])
     const getFilteredBookings = useMemo(() => computeFilteredList(bookings, searchKeys, query), [bookings, query])
 
-    console.log("GuestBookings Re-rendered", bookings)
     return (
         <section className="dashboardbox">
             <header className="dashboardheader">

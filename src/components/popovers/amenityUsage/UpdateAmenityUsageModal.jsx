@@ -21,9 +21,7 @@ export function UpdateAmenityUsageModal() {
 
     useEffect(() => {
         if (booking.amenityUsage && booking.amenityUsage.length > 0) {
-            console.log("booking.amenityUsage", booking.amenityUsage, bookingFormId, amenityId)
             const selectedAmenity = booking.amenityUsage.find((amenity) => amenity._id === amenityId)
-            console.log("selectedAmenity", selectedAmenity)
             if (selectedAmenity) {
                 inputParticularsRef.current.value = selectedAmenity.particulars
                 inputDatePaidRef.current.value = selectedAmenity.datePaid.split("T")[0]
