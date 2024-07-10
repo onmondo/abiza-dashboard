@@ -103,6 +103,20 @@
     }
 }
 
+// ol {
+//     list-style-type: none;
+//     counter-reset: listNumbering;
+
+//     li {
+//         counter-increment: listNumbering;
+
+//         &:before {
+//             content: counter(listNumbering, decimal-leading-zero)'.';
+//             font-size: 2rem;
+//         }
+//     }
+// }
+
 .dashboarddetails {
     display: flex;
     flex-wrap: wrap;
