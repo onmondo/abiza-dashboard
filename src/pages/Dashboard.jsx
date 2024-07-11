@@ -2,11 +2,11 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { GuestBookings } from "../features/GuestBookings";
 // import "./Dashboard.scss";
-import { CapitalExpenditures } from "../features/CapitalExpenditures";
+import { CapitalExpenditures } from "../features/EarningSection/CapitalExpenditures";
 import { DashboardContext } from "../context/DashboardContext";
 import { getCurrentDate } from "../util/searchDate"
-import { EarningsSection } from "../features/EarningsSection";
-import { NetIncomeChart } from "../features/NetIncomeChart";
+import { EarningsSection } from "../features/EarningSection";
+import { NetIncomeChart } from "../features/EarningSection/NetIncomeChart";
 import logo from '../assets/logo-transparent.png';
 // import { UseRefDemo } from "../components/hookDemos/UseRefDemo";
 // import { UseLayoutEffectDemo } from "../components/hookDemos/UseLayoutEffectDemo"

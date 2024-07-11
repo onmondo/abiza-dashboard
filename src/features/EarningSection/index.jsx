@@ -1,14 +1,14 @@
 import React, { useMemo, useEffect, useState, useContext } from "react"
-import { Shareholders } from "../components/Shareholders"
-import { DashboardContext } from "../context/DashboardContext"
-import { computeTotalExpenditure, computeTotalRevenue } from "../util/currency"
-import { fetchAllBookings } from "../integrations/GuestBookings"
-import { deleteExpenditure, fetchAllExpenditures } from "../integrations/CapitalExpenditures"
+import { Shareholders } from "./Shareholders"
+import { DashboardContext } from "../../context/DashboardContext"
+import { computeTotalExpenditure, computeTotalRevenue } from "../../util/currency"
+import { fetchAllBookings } from "../../integrations/GuestBookings"
+import { deleteExpenditure, fetchAllExpenditures } from "../../integrations/CapitalExpenditures"
 import Big from "big.js"
 import { NetIncomeChart } from "./NetIncomeChart"
 import { CapitalExpenditures } from "./CapitalExpenditures"
-import { EarningsSectionContext } from "../context/EarningsSectionContext"
-import { Overallstatus } from "../components/Overallstatus"
+import { EarningsSectionContext } from "../../context/EarningsSectionContext"
+import { Overallstatus } from "./Overallstatus"
 
 export const EarningsSection = function EarningsSection() {
     const [bookings, setBookings] = useState([])

@@ -1,11 +1,12 @@
 import React, { useState, useContext, useMemo } from "react";
 // import { useNavigate } from "react-router-dom";
-import { DashboardContext } from "../context/DashboardContext"
-import { amountFormatter } from "../util/currency"
-import { EarningsSectionContext } from "../context/EarningsSectionContext";
-import { computeFilteredList } from "../util/search";
-import { AddNewExpenseModal } from "../components/popovers/expense/AddNewExpenseModal";
-import { UpdateExpenseModal } from "../components/popovers/expense/UpdateExpenseModal";
+import { DashboardContext } from "../../context/DashboardContext"
+import { amountFormatter } from "../../util/currency"
+import { EarningsSectionContext } from "../../context/EarningsSectionContext";
+import { computeFilteredList } from "../../util/search";
+import { AddNewExpenseModal } from "../../components/popovers/expense/AddNewExpenseModal";
+import { UpdateExpenseModal } from "../../components/popovers/expense/UpdateExpenseModal";
+import { TransactionDetails } from "../../components/TransactionDetails";
 
 export function CapitalExpenditures() {
     const searchKeys = ["particulars", "remarks", "date"]
@@ -51,12 +52,16 @@ export function CapitalExpenditures() {
                     <li key={expenditure._id}>
                         <article className="dashboarddetails">
                             <header>
-                                <h3>{expenditure.particulars}</h3>
-                                <sub>{expenditure.remarks}</sub>
+                                <TransactionDetails 
+                                    title={expenditure.particulars}
+                                    subtitles={[expenditure.remarks]}
+                                />
                             </header>
                             <section>
-                                <h3>{amountFormatter.format(expenditure.totalBill)}</h3>
-                                <sub>{expenditure.date}</sub>
+                                <TransactionDetails
+                                    title={amountFormatter.format(expenditure.totalBill)} 
+                                    subtitles={[expenditure.date]}
+                                />
                             </section>
                         </article>
                         <p className="buttongroup">

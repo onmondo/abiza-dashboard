@@ -1,7 +1,6 @@
 import React, { useRef } from "react"
 import { addNewShareholder } from "../integrations/Sharesholders"
 import { useLocation, useNavigate } from "react-router-dom";
-import Big from "big.js";
 import { toDecimal } from "../util/currency";
 
 export function AddShareholder({ placeholder }) {
@@ -40,7 +39,7 @@ export function AddShareholder({ placeholder }) {
                 <label htmlFor="isowner">Owned?</label>
                 </div>
                 <p>
-                <button onClick={handleAddNewShareholder}>Add new shareholder</button>
+                <button onClick={handleAddNewShareholder}>Add shareholder</button>
                 <button className="cancel" onClick={handleCancel}>Cancel</button>                    
                 </p>
             </section>

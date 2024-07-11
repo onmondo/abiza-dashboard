@@ -1,10 +1,11 @@
 import React, { useEffect, useState, memo, useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { deleteShareholder, fetchAllShareholders } from "../integrations/Sharesholders"
-import { DashboardContext } from "../context/DashboardContext";
+import { deleteShareholder, fetchAllShareholders } from "../../integrations/Sharesholders"
+import { DashboardContext } from "../../context/DashboardContext";
 import Big from "big.js";
-import { amountFormatter } from "../util/currency";
-import { EarningsSectionContext } from "../context/EarningsSectionContext";
+import { amountFormatter } from "../../util/currency";
+import { EarningsSectionContext } from "../../context/EarningsSectionContext";
+import { StatsBox } from "../../components/StatsBox";
 
 export const Shareholders = memo(function Shareholders() {
     const { searchDate } = useContext(DashboardContext)
@@ -18,11 +19,11 @@ export const Shareholders = memo(function Shareholders() {
     const navigate = useNavigate()
 
     const handleAddNewShareholder = () => {
-        navigate("/addShareholder", { state: { searchDate }})
+        navigate("/shareholder", { state: { searchDate }})
     }
 
     const handleUpdateShareholder = (shareholderId) => {
-        navigate(`/updateShareholder/${shareholderId}`, { state: { searchDate }})
+        navigate(`/shareholder/${shareholderId}`, { state: { searchDate }})
     }
 
     const handleDeleteShareholder = async (shareholderId) => {
@@ -44,14 +45,16 @@ export const Shareholders = memo(function Shareholders() {
             </header>
             <ul className="dashboardboxlist sharesection">
                 {shareholders.map(shareholder => 
-                    <li key={shareholder._id} className={(shareholder.isOwner) ? "dbboxhighlight" : "" }>
-                        <h3>{amountFormatter.format(computeShares(shareholder.percentage))}</h3>
-                        <sub>{shareholder.name} {(shareholder.isOwner) ? "Owner" : "Host" } {`${(shareholder.percentage * 100)}%`}</sub>
+                    <StatsBox 
+                        key={shareholder._id} 
+                        label={`${shareholder.name} ${(shareholder.isOwner) ? "Owner" : "Host" } ${(shareholder.percentage * 100)}%`}
+                        value={amountFormatter.format(computeShares(shareholder.percentage))}
+                        className={(shareholder.isOwner) ? "dbboxhighlight" : "" }>
                         <p className="buttongroup">
                         <button onClick={() => { handleUpdateShareholder(shareholder._id) }}>Update</button>
                         <button onClick={() => { handleDeleteShareholder(shareholder._id) }}>Delete</button>
                         </p>
-                    </li>
+                    </StatsBox>
                 )}
             </ul>
             <footer>
