@@ -9,6 +9,7 @@ import { AddNewAmenityUsageModal } from "../components/popovers/amenityUsage/Add
 // import { UpdateAmenityUsageModal } from "../components/popovers/amenityUsage/UpdateAmenityUsageModal";
 import { DeleteBookingModal } from "../components/popovers/booking/DeleteBookingModal";
 import Big from "big.js";
+import { TransactionDetails } from "../components/TransactionDetails";
 
 export function GuestBookings() {
     const searchKeys = ["guestName", "from", "rooms", "modeOfPayment", "remarks"]
@@ -91,22 +92,36 @@ export function GuestBookings() {
                             <li key={booking._id} className="guestbookingitem">
                                 <article className="dashboarddetails">
                                     <header>
-                                    <h3>📜{booking.guestName}, {booking.rooms.join(" and ")}</h3>
-                                    <sub>From {booking.from}, {booking.noOfPax} pax, {booking.noOfStay} night/s of stay</sub><br />
-                                    <sub>Checked-in: {checkInDate}</sub><br />
-                                    <sub>Checked out: {checkOutDate}</sub>
+                                        <TransactionDetails 
+                                            title={`📜${booking.guestName}, ${booking.rooms.join(" and ")}`}
+                                            subtitles={[
+                                                `From ${booking.from}, ${booking.noOfPax} pax, ${booking.noOfStay} night/s of stay`,
+                                                `Checked-in: ${checkInDate}`,
+                                                `Checked out: ${checkOutDate}`
+                                            ]}
+                                        />
+                                    {/* <h3>📜{booking.guestName}, {booking.rooms.join(" and ")}</h3> */}
+                                    {/* <sub>From {booking.from}, {booking.noOfPax} pax, {booking.noOfStay} night/s of stay</sub><br /> */}
+                                    {/* <sub>Checked-in: {checkInDate}</sub><br />
+                                    <sub>Checked out: {checkOutDate}</sub> */}
                                     </header>
                                     {
                                     (booking.remarks.toLowerCase().includes('pending')) 
                                         ?   <section className="deliquent">
-                                                <h3>{amountFormatter.format(booking.totalPayout)}</h3>
-                                                <sub>Nightly price of {amountFormatter.format(booking.nightlyPrice)}</sub>
+                                                <TransactionDetails 
+                                                    title={amountFormatter.format(booking.totalPayout)}
+                                                    subtitles={[`Nightly price of ${amountFormatter.format(booking.nightlyPrice)}`]}
+                                                />
                                             </section>
                                         :   <section className="confirmed">
-                                                <h3>{amountFormatter.format(booking.totalPayout)}</h3>
-                                                <sub>Paid {booking.modeOfPayment} on {datePaid}</sub><br />
-                                                <sub>Nightly price of {amountFormatter.format(booking.nightlyPrice)}</sub><br />
-                                                <sub>Discount {computeDiscount(booking)}</sub>
+                                                <TransactionDetails 
+                                                    title={amountFormatter.format(booking.totalPayout)}
+                                                    subtitles={[
+                                                        `Paid ${booking.modeOfPayment} on ${datePaid}`,
+                                                        `Nightly price of ${amountFormatter.format(booking.nightlyPrice)}`,
+                                                        `Discount ${computeDiscount(booking)}`
+                                                    ]}
+                                                />
                                             </section> 
                                     }
                                 </article>

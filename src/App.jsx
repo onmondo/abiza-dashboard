@@ -20,8 +20,8 @@ export function App() {
                     {/* <Route path="/update/:id" element={<UpdateBooking />}></Route> */}
                     {/* <Route path="/addExpense" element={<AddNewExpense />}></Route> */}
                     {/* <Route path="/updateExpense/:id" element={<UpdateExpense />}></Route> */}
-                    <Route path="/addShareholder" element={<AddShareholder />}></Route>
-                    <Route path="/updateShareholder/:id" element={<UpdateShareholder />}></Route>
+                    <Route path="/shareholder" element={<AddShareholder />}></Route>
+                    <Route path="/shareholder/:id" element={<UpdateShareholder />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>

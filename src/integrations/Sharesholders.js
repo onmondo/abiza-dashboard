@@ -41,3 +41,21 @@ export const deleteShareholder = async (shareholderId) => {
         console.log(err)
     }
 }
+
+export const fetchCashAdvancesByShareholderId = async (fn, shareholderId) => {
+    try {
+        const res = await axios.get(`${process.env.DEV_SHARES_API_URL}/api/v1/shares/holders/${shareholderId}/advance`)
+        fn(res.data.data)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const fetchAllPaymentsByCashAdvanceId = async (fn, cashAdvanceId) => {
+    try {
+        const res = await axios.get(`${process.env.DEV_SHARES_API_URL}/api/v1/shares/holders/advance/${cashAdvanceId}/payments`)
+        fn(res.data.data)
+    } catch (err) {
+        console.log(err)
+    }
+}
