@@ -1,13 +1,18 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react"
-import { fetchShareholdersById, updateShareholder } from "../integrations/Sharesholders"
+import { fetchAllPaymentsByCashAdvanceId, fetchCashAdvancesByShareholderId, fetchShareholdersById, updateShareholder } from "../integrations/Sharesholders"
 import { useLocation, useNavigate } from "react-router-dom";
-import { toDecimal, toPercentage } from "../util/currency";
+import { amountFormatter, toDecimal, toPercentage } from "../util/currency";
+import { AddCashAdvanceModal } from "../features/EarningSection/popovers/AddCashAdvanceModal";
+import { TransactionDetails } from "../components/TransactionDetails";
+import { StatsBox } from "../components/StatsBox";
 
 export function UpdateShareholder({ placeholder }) {
     const location = useLocation()
     const shareholderId = location.pathname.split("/")[2]
 
     const [shareholder, setShareholder] = useState({})
+    const [cashAdvances, setCashAdvances] = useState([])
+    const [payments, setPayments] = useState([])
 
     const nameRef = useRef("")
     const percentageRef = useRef(0)
@@ -18,6 +23,7 @@ export function UpdateShareholder({ placeholder }) {
 
     useLayoutEffect(() => {
         fetchShareholdersById(setShareholder, shareholderId)
+        fetchCashAdvancesByShareholderId(setCashAdvances, shareholderId)
     }, [])
 
     useEffect(() => {
@@ -41,9 +47,13 @@ export function UpdateShareholder({ placeholder }) {
         navigate("/", { state: location.state})
     }
 
+    const handleOnClickCashAdvanceBox = async (cashAdvanceId) => {
+        await fetchAllPaymentsByCashAdvanceId(setPayments, cashAdvanceId)
+    }
+
     return (
         <div className="form">
-            <section>
+            <section className="shareholderdetails">
                 <header>
                     <h1>Update shareholder</h1>
                 </header>
@@ -61,8 +71,53 @@ export function UpdateShareholder({ placeholder }) {
                 </div>
                 <p>
                 <button onClick={handleUpdateShareholder}>Update</button>
+                <button popovertarget="newcashadvanceform">Cash advance</button>
                 <button className="cancel" onClick={handleCancel}>Cancel</button>
                 </p>
+            </section>
+            <AddCashAdvanceModal />
+            <section className="cashadvances">
+                <header>
+                    <h2>Cash advances</h2>
+                </header>
+                <ul className="dashboardboxlist">
+                {cashAdvances.map(cashAdvance => 
+                    <StatsBox 
+                        key={cashAdvance._id}
+                        label={cashAdvance.date} 
+                        value={amountFormatter.format(cashAdvance.amount)}>
+                        <p><sub>{cashAdvance.remarks}</sub></p>
+                        <button onClick={() => {handleOnClickCashAdvanceBox(cashAdvance._id); console.log("fetching payments")}}>View payments</button>
+                    </StatsBox>
+                )}
+                </ul>
+
+            </section>
+            <section className="payments">
+                <header>
+                    <h2>Payments</h2>
+                </header>
+                <ol>
+                {payments.map((payment, i) => 
+                <li key={i}>
+                    <article className="dashboarddetails">
+                        <header>
+                        <TransactionDetails 
+                            title={amountFormatter.format(payment.amountPaid)} 
+                            subtitles={[`Paid on: ${payment.paidAt}`, `${amountFormatter.format(payment.originalAmount)}`]}
+                            />
+                        </header>
+                        <section>
+                        <TransactionDetails 
+                            title={amountFormatter.format(payment.remaining)} 
+                            subtitles={[ payment.remarks ]}
+                            />
+                        </section>
+                    </article>
+                </li>
+
+                )}
+                </ol>
             </section>
         </div>
 

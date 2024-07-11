@@ -1,7 +1,8 @@
 import React, { useContext, useState, useLayoutEffect } from "react"
-import { EarningsSectionContext } from "../context/EarningsSectionContext"
-import { amountFormatter } from "../util/currency"
+import { EarningsSectionContext } from "../../context/EarningsSectionContext"
+import { amountFormatter } from "../../util/currency"
 import Big from "big.js"
+import { StatsBox } from "../../components/StatsBox"
 
 export function Overallstatus() {
     const [totalCashPayments, setTotalCashPayments] = useState(null)
@@ -29,12 +30,7 @@ export function Overallstatus() {
                 }
             }, defaultValue)
             : defaultValue
-        return (
-            <>
-                <h3>{amountFormatter.format(overall.totalPayments)}</h3>
-                <sub>{overall.totalCount} {title}</sub>
-            </>
-        )
+        return (<StatsBox label={`${overall.totalCount} ${title}`} value={amountFormatter.format(overall.totalPayments)} />)
     }
 
     return (
@@ -43,26 +39,13 @@ export function Overallstatus() {
                 <h1>💵 Earnings as of {currentMonth}</h1>
             </header>
             <ul className="dashboardboxlist">
-                <li>
-                    <h3>{amountFormatter.format(getTotalRevenue)}</h3>
-                    <sub>Bookings</sub>
-                </li>
-                <li>
-                    <h3>{amountFormatter.format(getTotalExpenditure)}</h3>
-                    <sub>Expense</sub>
-                </li>
-                <li className="dbboxhighlight">
-                    <h3>{amountFormatter.format(getNetIncome)}</h3>
-                    <sub>Total Net</sub>
-                </li>
+                <StatsBox label={"Bookings"} value={amountFormatter.format(getTotalRevenue)} />
+                <StatsBox label={"Expense"} value={amountFormatter.format(getTotalExpenditure)} />
+                <StatsBox label={"Total Net"} value={amountFormatter.format(getNetIncome)} className="dbboxhighlight" />
             </ul>  
             <ul className="dashboardboxlist">
-                <li>
-                    {computeTotalPayments("Cash Payments", totalCashPayments)}
-                </li>
-                <li>
-                    {computeTotalPayments("Bank Transfers", totalBankTransfers)}
-                </li>
+                {computeTotalPayments("Cash Payments", totalCashPayments)}
+                {computeTotalPayments("Bank Transfers", totalBankTransfers)}
             </ul>      
         </>
     )
