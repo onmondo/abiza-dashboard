@@ -75,3 +75,20 @@ export const fetchAllPaymentsByCashAdvanceId = async (fn, cashAdvanceId) => {
         console.log(err)
     }
 }
+
+export const createPaymentByCashAdvanceId = async (cashAdvanceId, payment) => {
+    try {
+        await axios.post(`${process.env.DEV_SHARES_API_URL}/api/v1/shares/holders/advance/${cashAdvanceId}/payments`, payment)
+        fn(res.data.data)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const cancelPaymentByCashAdvanceId = async (cashAdvanceId, payment) => {
+    try {
+        await axios.put(`${process.env.DEV_SHARES_API_URL}/api/v1/shares/holders/advance/${cashAdvanceId}/payments`, payment)
+    } catch (err) {
+        console.log(err)
+    }
+}

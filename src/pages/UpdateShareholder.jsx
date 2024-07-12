@@ -7,6 +7,7 @@ import { CashAdvancePayments } from "../features/UpdateShareholderDetails/CashAd
 import { ShareholderContext } from "../context/ShareholderContext";
 import { CashAdvances } from "../features/UpdateShareholderDetails/CashAdvances";
 import { CancelCashAdvanceConfirmationModal } from "../features/UpdateShareholderDetails/popovers/CancelCashAdvanceConfirmationModal";
+import { PaymentForCashAdvance } from "../features/UpdateShareholderDetails/popovers/PaymentForCashAdvance";
 
 export function UpdateShareholder({ placeholder }) {
     const location = useLocation()
@@ -15,7 +16,7 @@ export function UpdateShareholder({ placeholder }) {
     const [shareholder, setShareholder] = useState({})
     const [cashAdvances, setCashAdvances] = useState([])
     const [payments, setPayments] = useState([])
-    const [cashAdvanceId, setCashAdvanceId] = useState({})
+    const [cashAdvanceId, setCashAdvanceId] = useState("")
     const [toggleForm, setToggleForm] = useState(false)
 
     const nameRef = useRef("")
@@ -84,6 +85,7 @@ export function UpdateShareholder({ placeholder }) {
             <CancelCashAdvanceConfirmationModal />
             <CashAdvances />
             <CashAdvancePayments />
+            <PaymentForCashAdvance />
         </div>
         </ShareholderContext.Provider>
     )
