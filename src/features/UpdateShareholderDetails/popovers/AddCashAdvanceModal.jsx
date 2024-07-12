@@ -1,6 +1,9 @@
-import React, { useRef } from "react"
+import React, { useContext, useRef } from "react"
+import { addNewCashAdvance } from "../../../integrations/Sharesholders"
+import { ShareholderContext } from "../../../context/ShareholderContext"
 
 export function AddCashAdvanceModal() {
+    const { shareholderId, toggleForm, setToggleForm } = useContext(ShareholderContext)
     const inputAmountRef = useRef(0)
     const inputDateRef = useRef(new Date())
     const inputRemarksRef = useRef("")
@@ -14,20 +17,21 @@ export function AddCashAdvanceModal() {
     }
 
     const handleSubmit = async () => {
-        const inputAmountRef = inputParticularsRef.current.value
+        const inputAmount = inputAmountRef.current.value
         const inputDate = inputDateRef.current.value
         const inputRemarks = inputRemarksRef.current.value
 
-        await addNewCashAdvance(searchDate, { 
+        await addNewCashAdvance(shareholderId, { 
             date: inputDate,
-            particulars: inputParticulars,
-            totalBill: Number(inputBill),
+            amount: Number(inputAmount),
             remarks: inputRemarks
         })
 
         inputAmountRef.current.value = 0
         inputDateRef.current.value = new Date()
-        inputRemarksRef.current.value = ""        
+        inputRemarksRef.current.value = ""   
+        
+        setToggleForm(!toggleForm)
     }
 
     return (
