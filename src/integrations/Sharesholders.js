@@ -51,6 +51,22 @@ export const fetchCashAdvancesByShareholderId = async (fn, shareholderId) => {
     }
 }
 
+export const addNewCashAdvance = async (shareholderId, cashAdvance) => {
+    try {
+        await axios.post(`${process.env.DEV_SHARES_API_URL}/api/v1/shares/holders/${shareholderId}/advance`, cashAdvance)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const cancelCashAdvance = async (cashAdvanceId) => {
+    try {
+        await axios.delete(`${process.env.DEV_SHARES_API_URL}/api/v1/shares/holders/advance/${cashAdvanceId}`)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export const fetchAllPaymentsByCashAdvanceId = async (fn, cashAdvanceId) => {
     try {
         const res = await axios.get(`${process.env.DEV_SHARES_API_URL}/api/v1/shares/holders/advance/${cashAdvanceId}/payments`)
