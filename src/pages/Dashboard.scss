@@ -4,7 +4,7 @@
     }
 
     sub {
-        color: #a09f9f;
+        color: $inactive_color;
     }
 }
 
@@ -53,6 +53,7 @@
 
 .dashboardbox {
     @include commonborder;
+    height: fit-content;
 
     header {
         margin: 0;
@@ -203,6 +204,7 @@
             grid-column: 2;
             position: sticky;
             top: 0;
+            height: fit-content
         }
 
         &.cashadvances {
@@ -210,11 +212,23 @@
             grid-column: 3;
             position: sticky;
             top: 0;
+            height: fit-content
         }
 
         &.payments {
             @include commonborder();
             grid-column: 4;
+
+            header {
+                &.cancelledpayments {
+                    h3 {
+                        color: $inactive_color;
+                    }
+                }
+                h3 {
+                    color: $positive_color;
+                }
+            }
         }
     }
     
