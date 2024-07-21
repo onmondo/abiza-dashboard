@@ -4,8 +4,8 @@ import { DashboardContext } from "../../context/DashboardContext"
 import { amountFormatter } from "../../util/currency"
 import { EarningsSectionContext } from "../../context/EarningsSectionContext";
 import { computeFilteredList } from "../../util/search";
-import { AddNewExpenseModal } from "../../components/popovers/expense/AddNewExpenseModal";
-import { UpdateExpenseModal } from "../../components/popovers/expense/UpdateExpenseModal";
+import { AddNewExpenseModal } from "./popovers/AddNewExpenseModal";
+import { UpdateExpenseModal } from "./popovers/UpdateExpenseModal";
 import { TransactionDetails } from "../../components/TransactionDetails";
 
 export function CapitalExpenditures() {
@@ -48,8 +48,11 @@ export function CapitalExpenditures() {
             </header>
             <ol>
                 {getFilteredExpenditures
-                .map(expenditure => 
-                    <li key={expenditure._id}>
+                .map(expenditure => {
+                    const expenseDate = new Intl.DateTimeFormat('en', {
+                        dateStyle: 'full',
+                    }).format(new Date(expenditure.date))
+                    return (<li key={expenditure._id}>
                         <article className="dashboarddetails">
                             <header>
                                 <TransactionDetails 
@@ -60,7 +63,7 @@ export function CapitalExpenditures() {
                             <section>
                                 <TransactionDetails
                                     title={amountFormatter.format(expenditure.totalBill)} 
-                                    subtitles={[expenditure.date]}
+                                    subtitles={[expenseDate]}
                                 />
                             </section>
                         </article>
@@ -68,7 +71,8 @@ export function CapitalExpenditures() {
                             <button className="update" popovertarget="editexpenseform" onClick={() => {handleUpdateExpense(expenditure._id)}}>Update</button>
                             <button className="delete" onClick={() => {handleDeleteExpense(expenditure._id)}}>Delete</button>
                         </p>
-                    </li>
+                    </li>)
+                }
                 )}
             </ol>
             <AddNewExpenseModal />

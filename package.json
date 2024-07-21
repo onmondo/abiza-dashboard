@@ -1,6 +1,6 @@
 {
   "name": "abiza-dashboard",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Abiza Dashboard",
   "main": "index.js",
   "scripts": {
