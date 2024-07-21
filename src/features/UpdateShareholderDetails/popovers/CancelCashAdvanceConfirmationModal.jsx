@@ -25,7 +25,7 @@ export function CancelCashAdvanceConfirmationModal() {
 
     return (
         <div id="cancelcashadvanceconfirm" popover="">
-            <header><h1>Conrim cancellation?</h1></header>
+            <header><h1>Confirm cancellation?</h1></header>
             <section>
             <label htmlFor="anwser">Type <strong>Yes</strong> to confirm</label>
             <input 
