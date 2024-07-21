@@ -5,7 +5,7 @@ export const inputs = [
         placeholder: "Guest Name",
         label: "Guest Name",
         errorSpiel: "Guest name must be atleast 3 to 16 letters",
-        pattern: "^[a-zA-Z\s-]{3,16}$",
+        pattern: /^[a-zA-Z\s-]{3,16}$/g,
         required: true
     },
     {
