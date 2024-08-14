@@ -9,6 +9,7 @@ import { NetIncomeChart } from "./NetIncomeChart"
 import { CapitalExpenditures } from "./CapitalExpenditures"
 import { EarningsSectionContext } from "../../context/EarningsSectionContext"
 import { Overallstatus } from "./Overallstatus"
+import Posts from "../SandboxPost"
 
 export const EarningsSection = function EarningsSection() {
     const [bookings, setBookings] = useState([])
@@ -53,6 +54,7 @@ export const EarningsSection = function EarningsSection() {
             </section> 
             <Shareholders /> 
             <CapitalExpenditures />
+            <Posts />
         </section>
         </EarningsSectionContext.Provider>
     )
