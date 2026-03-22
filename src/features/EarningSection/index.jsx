@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useMemo, useEffect, useState, useContext } from 'react'
 import { Shareholders } from './Shareholders'
 import { DashboardContext } from '../../context/DashboardContext'
@@ -9,6 +10,7 @@ import { NetIncomeChart } from './NetIncomeChart'
 import { CapitalExpenditures } from './CapitalExpenditures'
 import { EarningsSectionContext } from '../../context/EarningsSectionContext'
 import { Overallstatus } from './Overallstatus'
+import './EarningsSection.scss'
 
 export const EarningsSection = function EarningsSection() {
   const [bookings, setBookings] = useState([])

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { GuestBookings } from '../features/GuestBookings'
-// import "./Dashboard.scss";
+import './Dashboard.scss'
 // import { CapitalExpenditures } from '../features/EarningSection/CapitalExpenditures'
 import { DashboardContext } from '../context/DashboardContext'
 import { getCurrentDate } from '../util/searchDate'

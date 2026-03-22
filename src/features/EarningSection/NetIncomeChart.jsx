@@ -3,7 +3,7 @@ import React, { useMemo, useContext } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { DashboardContext } from '../../context/DashboardContext'
 import { EarningsSectionContext } from '../../context/EarningsSectionContext'
-
+import './NetIncomeChart.scss'
 
 let monthlyIncome = 
   [
