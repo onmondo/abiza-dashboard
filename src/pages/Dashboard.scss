@@ -1,21 +1,28 @@
+@use "../all.scss" as theme;
+
 @mixin commonamountdisplay {
     section {
         text-align: right;
     }
 
     sub {
-        color: $inactive_color;
+        color: theme.$inactive_color;
     }
 }
 
 @mixin commonborder {
     padding: 1rem;
-    border: 0.15rem $dashboard_bg_color solid;
+    border: 0.15rem theme.$dashboard_bg_color solid;
     border-radius: 1rem;
 }
 
+@mixin secondbutton {
+    background-color: theme.$dashboard_bg_color;
+    color: #000000;
+}
+
 .headernav {
-    margin: $flex_gap;
+    margin: theme.$flex_gap;
     grid-column: 1 / span 2;
     position: sticky;
     top: 0;
@@ -36,8 +43,8 @@
 .dashboardrows {
     display: flex;
     flex-wrap: wrap;
-    gap: $flex_gap;
-    margin: $flex_gap;
+    gap: theme.$flex_gap;
+    margin: theme.$flex_gap;
 }
 
 .dashboardrowcolumn1 {
@@ -72,7 +79,7 @@
 
 .dashboardboxlist {
     display: flex;
-    gap: $flex_gap;
+    gap: theme.$flex_gap;
     list-style: none;
     flex-wrap: wrap;
     padding: 0;
@@ -88,7 +95,7 @@
 
     li {
         @include commonborder();
-        background-color: $dashboard_bg_color;
+        background-color: theme.$dashboard_bg_color;
         p {
             display: flex;
             gap: 1rem;
@@ -96,8 +103,8 @@
     }
 
     li.dbboxhighlight {
-        border: 0.1rem $main_bgh_color solid;
-        background-color: $main_bgh_color;
+        border: 0.1rem theme.$main_bgh_color solid;
+        background-color: theme.$main_bgh_color;
         color: #ffffff;
 
         button {
@@ -124,13 +131,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: $flex_gap;
+    gap: theme.$flex_gap;
 
     @include commonamountdisplay;
     
     section {
         &.deliquent {
-            color: $error_color
+            color: theme.$error_color
         }
     }
 }
@@ -222,11 +229,11 @@
             header {
                 &.cancelledpayments {
                     h3 {
-                        color: $inactive_color;
+                        color: theme.$inactive_color;
                     }
                 }
                 h3 {
-                    color: $positive_color;
+                    color: theme.$positive_color;
                 }
             }
         }
@@ -271,7 +278,7 @@
 
         span {
             font-size: 0.6rem;
-            color: $error_color;
+            color: theme.$error_color;
             margin-left: 1rem;
             visibility: hidden;
         }
@@ -282,7 +289,7 @@
             }
 
             &:invalid[focused="true"] {
-                border-color: $error_color;
+                border-color: theme.$error_color;
             }
         }
             

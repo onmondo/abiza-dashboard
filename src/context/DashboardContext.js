@@ -1,3 +1,4 @@
-import React, { createContext } from "react"
+// eslint-disable-next-line no-unused-vars
+import React, { createContext } from 'react'
 
-export const DashboardContext = createContext(null);
+export const DashboardContext = createContext(null)

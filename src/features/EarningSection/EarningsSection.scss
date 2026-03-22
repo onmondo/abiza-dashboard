@@ -1,5 +1,7 @@
+@use "../../all.scss" as theme;
+
 .earningssection {
     display: flex;
     flex-wrap: wrap;
-    gap: $flex_gap;
+    gap: theme.$flex_gap;
 }
