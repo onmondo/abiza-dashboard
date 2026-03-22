@@ -1,11 +1,12 @@
 {
   "name": "abiza-dashboard",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Abiza Dashboard",
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./dist && NODE_ENV=production webpack --mode production",
-    "dev": "NODE_ENV=development webpack-dev-server --mode development --open --hot"
+    "dev": "NODE_ENV=development webpack-dev-server --mode development --open --hot",
+    "lint": "eslint ."
   },
   "author": "John Raymond Blando",
   "license": "ISC",
@@ -21,10 +22,14 @@
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-react": "^7.28.5",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "babel-loader": "^10.1.1",
     "css-loader": "^7.1.4",
     "dotenv-webpack": "^9.0.0",
+    "eslint": "^10.1.0",
     "file-loader": "^6.2.0",
+    "globals": "^17.4.0",
     "html-webpack-plugin": "^5.6.6",
     "rimraf": "^6.1.3",
     "sass": "^1.98.0",
