@@ -1,9 +1,4 @@
-$flex_gap: 1rem;
-$dashboard_bg_color: #f8f8f8;
-$main_bgh_color: #bda0e2;
-$error_color: #cf2626;
-$positive_color: #448d4e;
-$inactive_color: #a09f9f;
+@use "all" as theme;
 
 * {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
@@ -18,12 +13,12 @@ $inactive_color: #a09f9f;
 @mixin mainbutton {
     @include commonspace;
     border-style: none;
-    background-color: $main_bgh_color;
+    background-color: theme.$main_bgh_color;
     color: #ffffff;
 }
 
 @mixin secondbutton {
-    background-color: $dashboard_bg_color;
+    background-color: theme.$dashboard_bg_color;
     color: #000000;
 }
 
@@ -52,7 +47,7 @@ main > * {
     }
 }
 
-@import "pages/Dashboard.scss";
-@import "features/EarningsSection.scss";
-@import "features/NetIncomeChart.scss";
-@import "components/popovers/booking/BookingForm.scss";
+// @import "pages/Dashboard.scss";
+// @import "features/EarningsSection.scss";
+// @import "features/NetIncomeChart.scss";
+// @import "components/popovers/booking/BookingForm.scss";
