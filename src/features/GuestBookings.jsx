@@ -11,6 +11,12 @@ import { AddNewAmenityUsageModal } from '../components/popovers/amenityUsage/Add
 import { DeleteBookingModal } from '../components/popovers/booking/DeleteBookingModal'
 import Big from 'big.js'
 import { TransactionDetails } from '../components/TransactionDetails'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import InputAdornment from '@mui/material/InputAdornment'
+import Typography from '@mui/material/Typography'
+import SearchIcon from '@mui/icons-material/Search'
+import PlusIcon from '@mui/icons-material/Add'
 
 export function GuestBookings() {
   const searchKeys = ['guestName', 'from', 'rooms', 'modeOfPayment', 'remarks']
@@ -56,22 +62,42 @@ export function GuestBookings() {
     return amountFormatter.format(0)
   }
 
+  const caption = `with the total revenue of ${amountFormatter.format(getTotalRevenue)}`.toLocaleUpperCase()
   return (
     <section className="dashboardbox">
       <header className="dashboardheader">
-        <h1>📚 {totalBookings} total guest bookings this month</h1>
+        <Typography variant="h5" gutterBottom>
+          <strong>📚 {totalBookings} total guest bookings this month</strong>
+        </Typography>
+        <Typography variant="caption" gutterBottom sx={{ display: 'block' }}>
+          {caption}
+        </Typography>
         <p>
-          with the total revenue of&nbsp; <strong title="totalrevenue">{amountFormatter.format(getTotalRevenue)}</strong> 
-                    &nbsp;
-          <button 
-            popovertarget="newbookingform" 
-            className="newbooking" 
-          >
-            ✨ Add new booking
-          </button>
+          <Button 
+            popoverTarget='newbookingform' 
+            variant="contained" 
+            color="primary"
+            startIcon={<PlusIcon />}>
+            Add new booking
+          </Button>
         </p>
-        <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br />
-        <sub>found {getFilteredBookings.length} records</sub> 
+        {/* <input type="text" placeholder="Search..." className="searchbox" onChange={(e) => setQuery(e.target.value.toLowerCase())} /> <br /> */}
+        <TextField
+          id="input-with-icon-textfield"
+          label="Search bookings"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
+          variant="standard"
+          onChange={(e) => setQuery(e.target.value.toLowerCase())}
+          helperText={`found ${getFilteredBookings.length} records`}
+        />
       </header>
       <AddNewBookingModal />
       <UpdateBookingModal />

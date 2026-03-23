@@ -4,23 +4,23 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
-@mixin commonspace {
-    padding: 0.4rem 1rem;
-    border-radius: 1rem;
-    border: 0.1rem solid;
-}
+// @mixin commonspace {
+//     padding: 0.4rem 1rem;
+//     border-radius: 1rem;
+//     border: 0.1rem solid;
+// }
 
-@mixin mainbutton {
-    @include commonspace;
-    border-style: none;
-    background-color: theme.$main_bgh_color;
-    color: #ffffff;
-}
+// @mixin mainbutton {
+//     @include commonspace;
+//     border-style: none;
+//     background-color: theme.$main_bgh_color;
+//     color: #ffffff;
+// }
 
-@mixin secondbutton {
-    background-color: theme.$dashboard_bg_color;
-    color: #000000;
-}
+// @mixin secondbutton {
+//     background-color: theme.$dashboard_bg_color;
+//     color: #000000;
+// }
 
 main {
     display: grid;
@@ -36,15 +36,15 @@ main > * {
     grid-template-columns: 6fr 4.3fr;
     align-items: start;
 
-    button {
-        @include mainbutton;
-        cursor: pointer;
-    }
+    // button {
+    //     @include mainbutton;
+    //     cursor: pointer;
+    // }
     
-    input {
-        @include commonspace;
-        padding: 0.6rem 1rem;
-    }
+    // input {
+    //     @include commonspace;
+    //     padding: 0.6rem 1rem;
+    // }
 }
 
 // @import "pages/Dashboard.scss";

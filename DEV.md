@@ -65,3 +65,8 @@ module.exports = {
 
 ### For styling
 Don't forget to install sass-loader & node-sass
+
+### Migrating to Material UI
+```
+npm i --save @mui/material @emotion/react @emotion/styled
+```
